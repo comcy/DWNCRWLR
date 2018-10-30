@@ -1,0 +1,42 @@
+{
+    "name": "dwncrwlr",
+    "version": "0.1.0",
+    "description": "Markdown to HTML converter utility.",
+    "main": "dwncrwlr.umd.js",
+    "typings": "dwncrwlr.d.ts",
+    "scripts": {
+        "docs": "npm run docs:build",
+        "docs:build": "compodoc -p tsconfig.json -n dwncrwlr -d docs/techdocs --hideGenerator",
+        "docs:serve": "npm run docs:build -- -s",
+        "docs:watch": "npm run docs:build -- -s -w",
+        "rollup": "rollup -c rollup.config.umd.js",
+        "tsc-compile": "tsc",
+        "ng-compile": "ngc",
+        "remove": "node tools/removecode.js",
+        "copy": "node tools/copy-package.js",
+        "cleanup": "node tools/cleanup-package.js",
+        "build:ngc": "npm run tsc-compile && npm run ng-compile && npm run remove && npm run copy && npm run cleanup",
+        "build": "npm run tsc-compile && npm run remove && npm run copy && npm run cleanup",
+        "publish": "cd .dist/ && npm publish"
+    },
+    "keywords": [],
+    "author": "Christian Silfang",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/node": "^10.12.1",
+        "del": "^3.0.0",
+        "nodemon": "^1.18.5",
+        "rimraf": "^2.6.2",
+        "rollup": "^0.51.8",
+        "rollup-plugin-angular": "^0.5.3",
+        "rollup-plugin-commonjs": "^8.2.6",
+        "rollup-plugin-node-resolve": "^3.0.0",
+        "rollup-plugin-typescript": "^0.8.1",
+        "showdown": "^1.8.7",
+        "ts-node": "^7.0.1",
+        "tslint": "~5.5.0",
+        "typescript": "^2.4.0"
+    },
+    "repository": "https://github.com/comcy/DWNCRWLR.git",
+    "dependencies": {}
+}
