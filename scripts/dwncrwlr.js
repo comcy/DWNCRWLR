@@ -6,8 +6,8 @@ const fs = require('fs-extra');
 const glob = require('glob');
 const path = require('path');
 const ejs = require('ejs');
-const marked = require('marked');
-const showdown = require('showdown');
+const showdown = require('showdown'),
+        converter = new showdown.Converter();
 const frontMatter = require('front-matter');
 
 const config = require('../dwncrwlr.config.json');
@@ -59,7 +59,14 @@ files.forEach((file) => {
         page: pageData.attributes
     });
 
-    
+    let pageContent;
+
+    if(fileInfo.ext === '.md') {
+        pageContent = converter.makeHtml(pageData.body)
+    }
+    if ()
+
+
 
 
 
