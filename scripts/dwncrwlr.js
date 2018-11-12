@@ -45,15 +45,24 @@ console.log('Detected files:\n', files);
 // 4. Iterate through all files
 files.forEach((file) => {
 
+    // 4.1. Prepare destination directories related to the given files 
     // Read file information of every single file ...
     const fileInfo = path.parse(file); // get complete file info
-    console.log(fileInfo); // TODO: remove later
-    
-    // ... and concatenate them with the dist folder path
+    // ... and concatenate them with the dist folder path and create the folders
     const fileCopyPath = path.join(distPath, fileInfo.dir)
-    console.log(fileCopyPath); // TODO: remove later
+    fs.mkdirpSync(fileCopyPath);
+    
+    // 4.2. Read file content and front-matter to render pages
+    const pageFile = fs.readFileSync(`${srcPath}/${srcPathPages}/${file}`, 'utf-8');
+    const pageData = frontMatter(pageFile);
+    const templateConfig = Object.assign({}, config, {
+        page: pageData.attributes
+    });
 
     
+
+
+
 
 
 

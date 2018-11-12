@@ -5,6 +5,7 @@
         - [Required toolset](#required-toolset)
         - [Required configuration](#required-configuration)
     - [Project setup](#project-setup)
+    - [Features](#features)
 
 ## Intention
 
@@ -29,3 +30,7 @@ The following sections show up the required toolset and the mandatory configurat
 `scripts` folder
 
 `dist` folder
+
+## Features
+
+1. Create menu / nav structure related to the `path.parse` information
