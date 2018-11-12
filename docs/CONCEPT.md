@@ -3,18 +3,29 @@
 - [DWNCRWLR - Concept](#dwncrwlr---concept)
     - [Intention](#intention)
         - [Required toolset](#required-toolset)
-        - [](#)
+        - [Required configuration](#required-configuration)
+    - [Project setup](#project-setup)
 
 ## Intention
 
-The idea of this project is to setup a whole all in one toolset to generate simple html sites out of markdown files.
+The idea of this project is to setup a whole all in one toolset to generate simple html sites out of markdown files like well known static site generators do.
 One of the main goals is to use the project with a minimal configuration.
+
+The following sections show up the required toolset and the mandatory configuration.
 
 ### Required toolset
 
-1. Markdown parser
-2. Templating engine
-3. Taskrunner
-4. Typescript ?
+1. Markdown parser: Showdown
+2. Templating engine: EJS
+3. Front-Matter: ???
 
-### 
+### Required configuration
+
+
+## Project setup
+
+`src` folder
+
+`scripts` folder
+
+`dist` folder
