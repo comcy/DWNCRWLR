@@ -2,10 +2,12 @@
     "name": "dwncrwlr",
     "version": "0.1.0",
     "description": "Markdown to HTML static site generator using EJS templates and front-matter.",
-    "main": "dwncrwlr.umd.js",
-    "typings": "dwncrwlr.d.ts",
+    "main": "index.js",
+    "bin": {
+        "dwncrwlr": "./scripts/dwncrwlr.js"
+    },
     "scripts": {
-        "build": "node ./scripts/build.js",
+        "build": "node ./scripts/dwncrwlr.js",
         "serve": "serve ./dist"
     },
     "keywords": [],
