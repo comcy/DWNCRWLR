@@ -14,5 +14,6 @@ module.exports = {
     `,
     textFgGreen: "\x1b[32m",
     textFgRed: "\x1b[31m",
+    textFgMagenta: "\x1b[35m",
     styleReset: "\x1b[0m"
 };
