@@ -1,0 +1,23 @@
+{
+    "site": {
+        "title": "DwnCrwlr",
+        "menu": {
+            "items": [ 
+                {
+                    "name": "test1",
+                    "link": "test1"
+                },
+                {
+                    "name": "test2",
+                    "link": "test2"
+                }
+            ]
+
+        }
+            
+    },
+    "build": {
+        "srcPath": "./src",
+        "distPath": "./dist"
+    }
+}

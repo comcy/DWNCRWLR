@@ -1,7 +1,11 @@
-const del = require('del');
-del([
-    '!dist/(*.umd.js|*.esm.js|*.d.ts|*.umd.js.map|*.esm.js.map|*.metadata.json)',
-    '!dist/bundles/(*.umd.js|*.esm.js|*.d.ts|*.umd.js.map|*.esm.js.map|*.metadata.json)'
-]).then(paths => {
-    console.log('Files and folders that would be deleted:\n', paths.join('\n'));
-});
+const fs = require('fs-extra');
+const config = require('../dwncrwlr.config.json');
+
+const srcPath = config.build.srcPath;
+const distPath = config.build.distPath;
+
+// Empty dist folder
+fs.emptyDirSync(distPath);
+
+// Copy required assets to dist folder
+fs.copy(`${srcPath}/assets`, `${distPath}/assets`);
