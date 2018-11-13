@@ -7,7 +7,7 @@ const glob = require('glob');
 const path = require('path');
 const ejs = require('ejs');
 const showdown = require('showdown'),
-        converter = new showdown.Converter();
+    converter = new showdown.Converter();
 const frontMatter = require('front-matter');
 
 const config = require('../dwncrwlr.config.json');
@@ -51,7 +51,7 @@ files.forEach((file) => {
     // ... and concatenate them with the dist folder path and create the folders
     const fileCopyPath = path.join(distPath, fileInfo.dir)
     fs.mkdirpSync(fileCopyPath);
-    
+
     // 4.2. Read file content and front-matter to render pages
     const pageFile = fs.readFileSync(`${srcPath}/${srcPathPages}/${file}`, 'utf-8');
     const pageData = frontMatter(pageFile);
@@ -61,18 +61,30 @@ files.forEach((file) => {
 
     let pageContent;
 
-    if(fileInfo.ext === '.md') {
-        pageContent = converter.makeHtml(pageData.body)
+    if (fileInfo.ext === '.md') {
+        pageContent = converter.makeHtml(pageData.body);
     }
-    if ()
+    if (fileInfo.ext === '.ejs') {
+        // TODO: when needed
+        console.log('TODO: EJS');
+    }
+    if (fileInfo.ext === '.html') {
+        pageContent = pageData.body;
+    }
 
 
+    // TODO layouting, tags, stuff
 
+    const finalPage = ejs.render(
+        // layoutData,
+        Object.assign({}, templateConfig, {
+            body: pageContent
+                // filename: layoutFileName
+        })
+    );
 
-
-
-
-
+    // save the html file
+    fs.writeFileSync(`${destPath}/${fileInfo.name}.html`, finalPage);
 
 });
 
@@ -80,4 +92,3 @@ console.log('\n', styles.textFgMagenta);
 console.log('//-----------------------------------------------------');
 console.log('\t Finished static site generation');
 console.log('//-----------------------------------------------------');
-
