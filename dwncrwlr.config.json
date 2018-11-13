@@ -2,10 +2,9 @@
     "site": {
         "title": "DwnCrwlr",
         "favicon": "fav.ico",
-        "logo":"",
+        "logo": "",
         "menu": {
-            "items": [ 
-                {
+            "items": [{
                     "name": "test1",
                     "link": "test1"
                 },
@@ -19,6 +18,7 @@
     "build": {
         "srcPath": "./src",
         "srcPathPages": "./views/pages",
+        "srcPathLayouts": "./views/layouts",
         "distPath": "./dist",
         "supportedContentExtensionsPattern": "md|ejs|html"
     }

@@ -17,6 +17,7 @@ const styles = require('./console-style')
 // Variabel declaration defined in dwncrwlr.config.json
 const srcPath = config.build.srcPath;
 const srcPathPages = config.build.srcPathPages;
+const srcPathLayouts = config.build.srcPathLayouts;
 const distPath = config.build.distPath;
 
 // Start of dwncrwlr script
@@ -65,8 +66,9 @@ files.forEach((file) => {
         pageContent = converter.makeHtml(pageData.body);
     }
     if (fileInfo.ext === '.ejs') {
-        // TODO: when needed
-        console.log('TODO: EJS');
+        pageContent = ejs.render(pageData.body, templateConfig, {
+            filename: `${srcPath}/${srcPathPages}/${file}`
+        });
     }
     if (fileInfo.ext === '.html') {
         pageContent = pageData.body;
@@ -75,16 +77,20 @@ files.forEach((file) => {
 
     // TODO layouting, tags, stuff
 
+    const layout = pageData.attributes.layout || 'default';
+    const layoutFileName = `${srcPath}/${srcPathLayouts}/${layout}.ejs`;
+    const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
+
     const finalPage = ejs.render(
-        // layoutData,
+        layoutData,
         Object.assign({}, templateConfig, {
-            body: pageContent
-                // filename: layoutFileName
+            body: pageContent,
+            filename: layoutFileName
         })
     );
 
     // save the html file
-    fs.writeFileSync(`${destPath}/${fileInfo.name}.html`, finalPage);
+    fs.writeFileSync(`${distPath}/${fileInfo.name}.html`, finalPage);
 
 });
 

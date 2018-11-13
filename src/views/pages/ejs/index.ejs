@@ -1,16 +1,13 @@
----
-title: EJS
+--- 
+title: EJS 
 ---
 <h1>EJS test</h1>
 
-<p>Here are some variables: <%= site.title %> | <%= page.title %></p>
+<p>titles:
+    <%= site.title %> |
+        <%= page.title %>
+</p>
 
-<h2>Projects</h2>
+<h2>Test site</h2>
 
-<p>The data below is coming from a JSON file.</p>
-
-<ul>
-  <% site.projects.forEach((project) => { %>
-    <li><a href="<%= project.url %>"><%= project.name %></a></li>
-  <% }) %>
-</ul>
+<p>Some test site stuff.</p>
