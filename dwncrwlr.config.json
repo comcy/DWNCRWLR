@@ -1,16 +1,36 @@
 {
     "site": {
         "title": "DwnCrwlr",
+        "description": "Describes the site",
         "favicon": "fav.ico",
+        "author": "comcy",
+        "year": "2018",
         "logo": "",
+        "baseHref": "/",
         "menu": {
-            "items": [{
-                    "name": "test1",
-                    "link": "test1"
+            "routes": [{
+                    "name": "a11",
+                    "link": "a11",
+                    "subroute": [
+                        {
+                            "name": "a21",
+                            "link": "a21"
+                        },
+                        {
+                            "name": "a22",
+                            "link": "a22",
+                            "subroute": [
+                                {
+                                    "name": "a31",
+                                    "link": "a31"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
-                    "name": "test2",
-                    "link": "test2"
+                    "name": "b11",
+                    "link": "b11"
                 }
             ]
         }

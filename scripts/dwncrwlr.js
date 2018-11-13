@@ -9,6 +9,7 @@ const ejs = require('ejs');
 const showdown = require('showdown'),
     converter = new showdown.Converter();
 const frontMatter = require('front-matter');
+const moment = require('moment');
 
 const config = require('../dwncrwlr.config.json');
 const styles = require('./console-style')
@@ -56,41 +57,60 @@ files.forEach((file) => {
     // 4.2. Read file content and front-matter to render pages
     const pageFile = fs.readFileSync(`${srcPath}/${srcPathPages}/${file}`, 'utf-8');
     const pageData = frontMatter(pageFile);
-    const templateConfig = Object.assign({}, config, {
-        page: pageData.attributes
+    const actualDate = moment().format('LLL');
+
+    const templateConfig = Object.assign({}, {lastupdate: actualDate}, config, {
+        page: pageData.attributes,
     });
+
+    console.log(templateConfig);
 
     let pageContent;
 
-    if (fileInfo.ext === '.md') {
-        pageContent = converter.makeHtml(pageData.body);
+    switch (fileInfo.ext) {
+        case '.md':
+            pageContent = converter.makeHtml(pageData.body);
+            break;
+        case '.ejs':
+            pageContent = ejs.render(pageData.body, templateConfig, {
+                filename: `${srcPath}/${srcPathPages}/${file}`
+            });
+            break;
+        default:
+            pageContent = pageData.body;
     }
-    if (fileInfo.ext === '.ejs') {
-        pageContent = ejs.render(pageData.body, templateConfig, {
-            filename: `${srcPath}/${srcPathPages}/${file}`
-        });
-    }
-    if (fileInfo.ext === '.html') {
-        pageContent = pageData.body;
-    }
+
+    // if (fileInfo.ext === '.md') {
+    //     pageContent = converter.makeHtml(pageData.body);
+    // }
+    // if (fileInfo.ext === '.ejs') {
+    //     pageContent = ejs.render(pageData.body, templateConfig, {
+    //         filename: `${srcPath}/${srcPathPages}/${file}`
+    //     });
+    // }
+    // if (fileInfo.ext === '.html') {
+    //     pageContent = pageData.body;
+    // }
 
 
     // TODO layouting, tags, stuff
 
     const layout = pageData.attributes.layout || 'default';
     const layoutFileName = `${srcPath}/${srcPathLayouts}/${layout}.ejs`;
-    const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
+    const layoutData = fs.readFileSync(layoutFileName, 'utf-8');            
 
     const finalPage = ejs.render(
         layoutData,
         Object.assign({}, templateConfig, {
             body: pageContent,
-            filename: layoutFileName
+            filename: layoutFileName,
         })
     );
 
     // save the html file
     fs.writeFileSync(`${distPath}/${fileInfo.name}.html`, finalPage);
+
+
 
 });
 
