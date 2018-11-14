@@ -7,7 +7,12 @@
         "dwncrwlr": "./scripts/dwncrwlr.js"
     },
     "scripts": {
-        "build": "node ./scripts/dwncrwlr.js",
+        "build": "npm run styles && npm run generate",
+        "build:dev": "npm run styles && npm run generate && npm run serve",
+        "styles": "node-sass ./src/styles/scss/index.scss ./src/assets/css/styles.css",
+        "styles:watch": "node-sass --watch ./src/styles/scss/index.scss ./src/assets/css/styles.css",
+        "generate": "node ./scripts/dwncrwlr.js",
+        "watch": "watch 'npm run build' ./src",
         "serve": "serve ./dist"
     },
     "keywords": [],
@@ -20,8 +25,10 @@
         "fs-extra": "^7.0.1",
         "glob": "^7.1.3",
         "moment": "^2.22.2",
+        "node-sass": "^4.10.0",
         "serve": "^10.0.2",
-        "showdown": "^1.9.0"
+        "showdown": "^1.9.0",
+        "watch": "^1.0.2"
     },
     "repository": "https://github.com/comcy/DWNCRWLR.git",
     "dependencies": {}

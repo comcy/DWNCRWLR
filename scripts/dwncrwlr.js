@@ -39,7 +39,10 @@ fs.copy(`${srcPath}/assets`, `${distPath}/assets`);
 console.log('Supported file extensions:');
 console.log(styles.textFgGreen, `${config.build.supportedContentExtensionsPattern}`);
 
-const files = glob.sync(`**/*.@(${config.build.supportedContentExtensionsPattern})`, { cwd: `${srcPath}${srcPathPages}` });
+const files = glob.sync(`**/*.@(${config.build.supportedContentExtensionsPattern})`, { 
+    // cwd: `${srcPath}${srcPathPages}` 
+    cwd: `${srcPath}/sites` 
+});
 
 console.log('\n', styles.styleReset);
 console.log('Detected files:\n', files);
@@ -55,7 +58,7 @@ files.forEach((file) => {
     fs.mkdirpSync(fileCopyPath);
 
     // 4.2. Read file content and front-matter to render pages and set actual build date 
-    const pageFile = fs.readFileSync(`${srcPath}${srcPathPages}/${file}`, 'utf-8');
+    const pageFile = fs.readFileSync(`${srcPath}/sites/${file}`, 'utf-8'); // ${srcPathPages}/${file}`, 'utf-8');
     const pageData = frontMatter(pageFile);
     const actualDate = moment().format('LLL');
 
@@ -73,7 +76,7 @@ files.forEach((file) => {
             break;
         case '.ejs':
             pageContent = ejs.render(pageData.body, templateConfig, {
-                filename: `${srcPath}${srcPathPages}/${file}`
+                filename: `${srcPath}/sites/${file}` //${srcPathPages}/${file}`
             });
             break;
         default:
