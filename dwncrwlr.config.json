@@ -37,8 +37,8 @@
     },
     "build": {
         "srcPath": "./src",
-        "srcPathPages": "./views/pages",
-        "srcPathLayouts": "./views/layouts",
+        "srcPathPages": "/pages",
+        "srcPathLayouts": "/views/layouts",
         "distPath": "./dist",
         "supportedContentExtensionsPattern": "md|ejs|html"
     }

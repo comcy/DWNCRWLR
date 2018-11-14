@@ -39,7 +39,7 @@ fs.copy(`${srcPath}/assets`, `${distPath}/assets`);
 console.log('Supported file extensions:');
 console.log(styles.textFgGreen, `${config.build.supportedContentExtensionsPattern}`);
 
-const files = glob.sync(`**/*.@(${config.build.supportedContentExtensionsPattern})`, { cwd: `${srcPath}/${srcPathPages}` });
+const files = glob.sync(`**/*.@(${config.build.supportedContentExtensionsPattern})`, { cwd: `${srcPath}${srcPathPages}` });
 
 console.log('\n', styles.styleReset);
 console.log('Detected files:\n', files);
@@ -55,7 +55,7 @@ files.forEach((file) => {
     fs.mkdirpSync(fileCopyPath);
 
     // 4.2. Read file content and front-matter to render pages
-    const pageFile = fs.readFileSync(`${srcPath}/${srcPathPages}/${file}`, 'utf-8');
+    const pageFile = fs.readFileSync(`${srcPath}${srcPathPages}/${file}`, 'utf-8');
     const pageData = frontMatter(pageFile);
     const actualDate = moment().format('LLL');
 
@@ -73,7 +73,7 @@ files.forEach((file) => {
             break;
         case '.ejs':
             pageContent = ejs.render(pageData.body, templateConfig, {
-                filename: `${srcPath}/${srcPathPages}/${file}`
+                filename: `${srcPath}${srcPathPages}/${file}`
             });
             break;
         default:
@@ -96,7 +96,7 @@ files.forEach((file) => {
     // TODO layouting, tags, stuff
 
     const layout = pageData.attributes.layout || 'default';
-    const layoutFileName = `${srcPath}/${srcPathLayouts}/${layout}.ejs`;
+    const layoutFileName = `${srcPath}${srcPathLayouts}/${layout}.ejs`;
     const layoutData = fs.readFileSync(layoutFileName, 'utf-8');            
 
     const finalPage = ejs.render(
