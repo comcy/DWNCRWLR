@@ -48,13 +48,13 @@ console.log('Detected files:\n', files);
 files.forEach((file) => {
 
     // 4.1. Prepare destination directories related to the given files 
-    // Read file information of every single file ...
-    const fileInfo = path.parse(file); // get complete file info
-    // ... and concatenate them with the dist folder path and create the folders
+    // Read file information of every single file and
+    // concatenate them with the dist folder path and create the folders
+    const fileInfo = path.parse(file); 
     const fileCopyPath = path.join(distPath, fileInfo.dir)
     fs.mkdirpSync(fileCopyPath);
 
-    // 4.2. Read file content and front-matter to render pages
+    // 4.2. Read file content and front-matter to render pages and set actual build date 
     const pageFile = fs.readFileSync(`${srcPath}${srcPathPages}/${file}`, 'utf-8');
     const pageData = frontMatter(pageFile);
     const actualDate = moment().format('LLL');
