@@ -1,6 +1,6 @@
 <!-- views/partials/header.ejs -->
 
-<nav class="navbar navbar-default" role="navigation">
+<nav class="header navbar navbar-default" role="navigation">
     <div class="container-fluid">
 
         <div class="navbar-header">
@@ -10,10 +10,19 @@
             </a>
 
             <ul class="nav navbar-nav">
-                <li><a href="<%= site.baseHref %>" class="btn">
+                <li>
+                    <a href="<%= site.baseHref %>" class="btn">
                         <%= site.homelabel %>
                     </a>
                 </li>
+                <% navData.forEach( (item)=> { %>
+                    <li>
+                        <a href="/<%= item.dir %>/<%= item.name %>">
+                            <%= item.dir %>/
+                                <%= item.name %>
+                        </a>
+                    </li>
+                    <% }) %>
             </ul>
         </div>
 

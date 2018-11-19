@@ -17,7 +17,7 @@ const styles = require('./console-style')
 
 // Variabel declaration defined in dwncrwlr.config.json
 const srcPath = config.build.srcPath;
-const srcPathPages = config.build.srcPathPages;
+const srcPathSites = config.build.srcPathSites;
 const srcPathLayouts = config.build.srcPathLayouts;
 const distPath = config.build.distPath;
 
@@ -29,44 +29,49 @@ console.log('\t Starting static site generation');
 console.log('//-----------------------------------------------------');
 console.log('\n', styles.styleReset);
 
-// 1. Empty dist folder
+// Empty dist folder and copy assets
 fs.emptyDirSync(distPath);
-
-// 2. Copy required assets to dist folder
 fs.copy(`${srcPath}/assets`, `${distPath}/assets`);
 
-// 3. Read in all files by specified pattern
 console.log('Supported file extensions:');
 console.log(styles.textFgGreen, `${config.build.supportedContentExtensionsPattern}`);
 
-const files = glob.sync(`**/*.@(${config.build.supportedContentExtensionsPattern})`, { 
-    // cwd: `${srcPath}${srcPathPages}` 
-    cwd: `${srcPath}/sites` 
+const files = glob.sync(`**/*.@(${config.build.supportedContentExtensionsPattern})`, { cwd: `${srcPath}/${srcPathSites}` });
+
+const navArr = [];
+
+// Iterate through all files to generate Navigation links
+files.forEach((file) => {
+    let navArrItem = { dir: null, name: null };
+
+    const fileInfoNav = path.parse(file);
+    console.log('\n::', fileInfoNav);
+
+    navArrItem.dir = fileInfoNav.dir;
+    navArrItem.name = fileInfoNav.name;
+
+    navArr.push(navArrItem);
+    console.log(navArr);
 });
+
 
 console.log('\n', styles.styleReset);
 console.log('Detected files:\n', files);
 
-// 4. Iterate through all files
 files.forEach((file) => {
+    // Prepare destination folder
+    const fileInfo = path.parse(file);
 
-    // 4.1. Prepare destination directories related to the given files 
-    // Read file information of every single file and
-    // concatenate them with the dist folder path and create the folders
-    const fileInfo = path.parse(file); 
-    const fileCopyPath = path.join(distPath, fileInfo.dir)
+    const fileCopyPath = path.join(distPath, fileInfo.dir);
     fs.mkdirpSync(fileCopyPath);
 
-    // 4.2. Read file content and front-matter to render pages and set actual build date 
-    const pageFile = fs.readFileSync(`${srcPath}/sites/${file}`, 'utf-8'); // ${srcPathPages}/${file}`, 'utf-8');
+    // Read content 
+    const pageFile = fs.readFileSync(`${srcPath}/${srcPathSites}/${file}`, 'utf-8');
     const pageData = frontMatter(pageFile);
     const actualDate = moment().format('LLL');
-
-    const templateConfig = Object.assign({}, {lastupdate: actualDate}, config, {
+    const templateConfig = Object.assign({}, { lastupdate: actualDate, navData: navArr }, config, {
         page: pageData.attributes,
     });
-
-    console.log(templateConfig);
 
     let pageContent;
 
@@ -76,31 +81,17 @@ files.forEach((file) => {
             break;
         case '.ejs':
             pageContent = ejs.render(pageData.body, templateConfig, {
-                filename: `${srcPath}/sites/${file}` //${srcPathPages}/${file}`
+                filename: `${srcPath}${srcPathSites}/${file}`
             });
             break;
         default:
             pageContent = pageData.body;
     }
 
-    // if (fileInfo.ext === '.md') {
-    //     pageContent = converter.makeHtml(pageData.body);
-    // }
-    // if (fileInfo.ext === '.ejs') {
-    //     pageContent = ejs.render(pageData.body, templateConfig, {
-    //         filename: `${srcPath}/${srcPathPages}/${file}`
-    //     });
-    // }
-    // if (fileInfo.ext === '.html') {
-    //     pageContent = pageData.body;
-    // }
-
-
-    // TODO layouting, tags, stuff
-
+    // Assign layouts
     const layout = pageData.attributes.layout || 'default';
-    const layoutFileName = `${srcPath}${srcPathLayouts}/${layout}.ejs`;
-    const layoutData = fs.readFileSync(layoutFileName, 'utf-8');            
+    const layoutFileName = `${srcPath}/${srcPathLayouts}/${layout}.ejs`;
+    const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
     const finalPage = ejs.render(
         layoutData,
@@ -110,10 +101,8 @@ files.forEach((file) => {
         })
     );
 
-    // save the html file
-    fs.writeFileSync(`${distPath}/${fileInfo.name}.html`, finalPage);
-
-
+    // Save file with name of folder and file name
+    fs.writeFileSync(`${distPath}/${fileInfo.dir}/${fileInfo.name}.html`, finalPage, 'utf-8');
 
 });
 
