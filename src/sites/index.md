@@ -1,6 +1,4 @@
-#DWNCRWLR
+# DWNCRWLR
 
-This is a test page
+This is the index page of the `DWNCRWLR` test application.
 
-
-qweqweqweqwe

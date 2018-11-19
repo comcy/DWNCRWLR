@@ -7,13 +7,12 @@ const glob = require('glob');
 const path = require('path');
 const ejs = require('ejs');
 const showdown = require('showdown'),
-    converter = new showdown.Converter();
+  converter = new showdown.Converter();
 const frontMatter = require('front-matter');
 const moment = require('moment');
 
 const config = require('../dwncrwlr.config.json');
-const styles = require('./console-style')
-
+const styles = require('./console-style');
 
 // Variabel declaration defined in dwncrwlr.config.json
 const srcPath = config.build.srcPath;
@@ -34,76 +33,104 @@ fs.emptyDirSync(distPath);
 fs.copy(`${srcPath}/assets`, `${distPath}/assets`);
 
 console.log('Supported file extensions:');
-console.log(styles.textFgGreen, `${config.build.supportedContentExtensionsPattern}`);
+console.log(
+  styles.textFgGreen,
+  `${config.build.supportedContentExtensionsPattern}`
+);
 
-const files = glob.sync(`**/*.@(${config.build.supportedContentExtensionsPattern})`, { cwd: `${srcPath}/${srcPathSites}` });
+const files = glob.sync(
+  `**/*.@(${config.build.supportedContentExtensionsPattern})`,
+  { cwd: `${srcPath}/${srcPathSites}` }
+);
 
 const navArr = [];
+let actualDir = '';
 
 // Iterate through all files to generate Navigation links
-files.forEach((file) => {
-    let navArrItem = { dir: null, name: null };
+files.forEach(file => {
+  let navItem = { root: null, items: [] };
+  let navChild = { dir: null, name: null };
 
-    const fileInfoNav = path.parse(file);
-    console.log('\n::', fileInfoNav);
+  const fileInfoNav = path.parse(file);
 
-    navArrItem.dir = fileInfoNav.dir;
-    navArrItem.name = fileInfoNav.name;
+  navItem.dir = fileInfoNav.dir;
+  navItem.name = fileInfoNav.name;
 
-    navArr.push(navArrItem);
-    console.log(navArr);
+  if (fileInfoNav.dir !== '') {
+    if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
+      navItem.root = fileInfoNav.dir;
+      console.log('actDir: ', actualDir);
+    }
+
+    navArr.push(navItem);
+    // console.log(navArr);
+
+    actualDir = fileInfoNav.dir;
+  }
 });
-
+console.log('Navigation: \n');
+console.log(navArr);
 
 console.log('\n', styles.styleReset);
 console.log('Detected files:\n', files);
 
-files.forEach((file) => {
-    // Prepare destination folder
-    const fileInfo = path.parse(file);
+files.forEach(file => {
+  // Prepare destination folder
+  const fileInfo = path.parse(file);
 
-    const fileCopyPath = path.join(distPath, fileInfo.dir);
-    fs.mkdirpSync(fileCopyPath);
+  const fileCopyPath = path.join(distPath, fileInfo.dir);
+  fs.mkdirpSync(fileCopyPath);
 
-    // Read content 
-    const pageFile = fs.readFileSync(`${srcPath}/${srcPathSites}/${file}`, 'utf-8');
-    const pageData = frontMatter(pageFile);
-    const actualDate = moment().format('LLL');
-    const templateConfig = Object.assign({}, { lastupdate: actualDate, navData: navArr }, config, {
-        page: pageData.attributes,
-    });
-
-    let pageContent;
-
-    switch (fileInfo.ext) {
-        case '.md':
-            pageContent = converter.makeHtml(pageData.body);
-            break;
-        case '.ejs':
-            pageContent = ejs.render(pageData.body, templateConfig, {
-                filename: `${srcPath}${srcPathSites}/${file}`
-            });
-            break;
-        default:
-            pageContent = pageData.body;
+  // Read content
+  const pageFile = fs.readFileSync(
+    `${srcPath}/${srcPathSites}/${file}`,
+    'utf-8'
+  );
+  const pageData = frontMatter(pageFile);
+  const actualDate = moment().format('LLL');
+  const templateConfig = Object.assign(
+    {},
+    { lastupdate: actualDate, navData: navArr },
+    config,
+    {
+      page: pageData.attributes
     }
+  );
 
-    // Assign layouts
-    const layout = pageData.attributes.layout || 'default';
-    const layoutFileName = `${srcPath}/${srcPathLayouts}/${layout}.ejs`;
-    const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
+  let pageContent;
 
-    const finalPage = ejs.render(
-        layoutData,
-        Object.assign({}, templateConfig, {
-            body: pageContent,
-            filename: layoutFileName,
-        })
-    );
+  switch (fileInfo.ext) {
+    case '.md':
+      pageContent = converter.makeHtml(pageData.body);
+      break;
+    case '.ejs':
+      pageContent = ejs.render(pageData.body, templateConfig, {
+        filename: `${srcPath}${srcPathSites}/${file}`
+      });
+      break;
+    default:
+      pageContent = pageData.body;
+  }
 
-    // Save file with name of folder and file name
-    fs.writeFileSync(`${distPath}/${fileInfo.dir}/${fileInfo.name}.html`, finalPage, 'utf-8');
+  // Assign layouts
+  const layout = pageData.attributes.layout || 'default';
+  const layoutFileName = `${srcPath}/${srcPathLayouts}/${layout}.ejs`;
+  const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
+  const finalPage = ejs.render(
+    layoutData,
+    Object.assign({}, templateConfig, {
+      body: pageContent,
+      filename: layoutFileName
+    })
+  );
+
+  // Save file with name of folder and file name
+  fs.writeFileSync(
+    `${distPath}/${fileInfo.dir}/${fileInfo.name}.html`,
+    finalPage,
+    'utf-8'
+  );
 });
 
 console.log('\n', styles.textFgMagenta);
