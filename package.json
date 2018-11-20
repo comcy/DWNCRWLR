@@ -8,10 +8,12 @@
     },
     "scripts": {
         "build": "npm run styles && npm run generate",
+        "build:ts": "npm run styles && npm run generate:ts",
         "build:dev": "npm run styles && npm run generate && npm run serve",
         "styles": "node-sass ./src/styles/scss/index.scss ./src/assets/css/styles.css",
         "styles:watch": "node-sass --watch ./src/styles/scss/index.scss ./src/assets/css/styles.css",
         "generate": "node ./scripts/dwncrwlr.js",
+        "generate:ts": "node ./typescript/dwncrwlr.js",
         "watch": "watch 'npm run build' ./src",
         "serve": "serve ./dist"
     },
@@ -19,6 +21,8 @@
     "author": "Christian Silfang",
     "license": "MIT",
     "devDependencies": {
+        "@types/fs-extra": "^5.0.4",
+        "@types/node": "^10.12.9",
         "cross-env": "^5.2.0",
         "ejs": "^2.6.1",
         "front-matter": "^3.0.1",

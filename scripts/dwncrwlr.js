@@ -48,8 +48,8 @@ let actualDir = '';
 
 // Iterate through all files to generate Navigation links
 files.forEach(file => {
-  let navItem = { root: null, items: [] };
-  let navChild = { dir: null, name: null };
+  let navItem = { root: null, items: [ { dir: null, name: null } ] };
+  // let navChild = { dir: null, name: null };
 
   const fileInfoNav = path.parse(file);
 
@@ -58,18 +58,19 @@ files.forEach(file => {
 
   if (fileInfoNav.dir !== '') {
     if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
-      navItem.root = fileInfoNav.dir;
-      console.log('actDir: ', actualDir);
+      navItem.root = actualDir = fileInfoNav.dir; // actual folder is root
+      // navChild = { dir: fileInfoNav.dir, name: fileInfoNav.name }; // assign first child ...
+      navItem.items.push({ dir: fileInfoNav.dir, name: fileInfoNav.name }); // ... and push it to root
+    } else {
+      navItem.root = actualDir;
+      // navChild = { dir: fileInfoNav.dir, name: fileInfoNav.name };
+      navItem.items.push({ dir: fileInfoNav.dir, name: fileInfoNav.name });
     }
-
     navArr.push(navItem);
-    // console.log(navArr);
-
     actualDir = fileInfoNav.dir;
   }
 });
-console.log('Navigation: \n');
-console.log(navArr);
+console.log('_: ', navArr);
 
 console.log('\n', styles.styleReset);
 console.log('Detected files:\n', files);
