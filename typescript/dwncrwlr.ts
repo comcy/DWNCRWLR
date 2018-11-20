@@ -94,23 +94,21 @@ export class Main {
       // check if root and actual folder is not already assigned = init
       if (fileInfoNav.dir !== '' && actualDirectory !== fileInfoNav.dir) {
         this.navigation = new Navigation(fileInfoNav.dir);
-        // this.navigationItem = new NavigationItem(fileInfoNav.name, fileInfoNav.dir);
-        // this.navigation.setItem(this.navigationItem); // ... and push it to root
         this.navigation.setItem(new NavigationItem(fileInfoNav.name, fileInfoNav.dir)); // ... and push it to root
 
         actualDirectory = fileInfoNav.dir;
         actualNavigation = this.navigation;
 
-        console.log('if-count: ' + ifCount++);
-        console.log(this.navigation);
-        console.log(this.navigationItem);
+        // console.log('if-count: ' + ifCount++);
+        // console.log(this.navigation);
+        // console.log(this.navigationItem);
       }
       else { // act == dir
         this.navigationItem = new NavigationItem(fileInfoNav.name, fileInfoNav.dir);
         actualNavigation.setItem(this.navigationItem);//new NavigationItem(fileInfoNav.name, fileInfoNav.dir)); // ... and push it to root
-        console.log('else-count: ' + elseCount++);
-        console.log(actualNavigation);
-        console.log(this.navigationItem);
+        // console.log('else-count: ' + elseCount++);
+        // console.log(actualNavigation);
+        // console.log(this.navigationItem);
       }
 
       this.navigations.push(actualNavigation);
@@ -131,7 +129,7 @@ export class Main {
   private generateAllFiles() {
     this.files.forEach(file => {
       const fileInfo = path.parse(file);
-      console.log(fileInfo);
+      // console.log(fileInfo);
       const fileCopyPath = path.join(this.distPath, fileInfo.dir);
       fs.mkdirpSync(fileCopyPath);
 

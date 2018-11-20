@@ -65,16 +65,10 @@ var Main = (function () {
                 _this.navigation.setItem(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir));
                 actualDirectory = fileInfoNav.dir;
                 actualNavigation = _this.navigation;
-                console.log('if-count: ' + ifCount++);
-                console.log(_this.navigation);
-                console.log(_this.navigationItem);
             }
             else {
                 _this.navigationItem = new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir);
                 actualNavigation.setItem(_this.navigationItem);
-                console.log('else-count: ' + elseCount++);
-                console.log(actualNavigation);
-                console.log(_this.navigationItem);
             }
             _this.navigations.push(actualNavigation);
             _this.navigation = null;
@@ -91,7 +85,6 @@ var Main = (function () {
         var _this = this;
         this.files.forEach(function (file) {
             var fileInfo = path.parse(file);
-            console.log(fileInfo);
             var fileCopyPath = path.join(_this.distPath, fileInfo.dir);
             fs.mkdirpSync(fileCopyPath);
             var pageFile = fs.readFileSync(_this.srcPath + "/" + _this.srcPathSites + "/" + file, 'utf-8');
