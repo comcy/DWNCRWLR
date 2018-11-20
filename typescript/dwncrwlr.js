@@ -1,5 +1,4 @@
 "use strict";
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs-extra");
 var path = require("path");
@@ -30,7 +29,7 @@ var Main = (function () {
         this.copyAssets();
         this.loadAllFiles();
         this.createNavigation();
-        this.crwlAllFiles();
+        this.generateAllFiles();
         console.log('\n', console_style_1.style.textFgMagenta);
         console.log('//-----------------------------------------------------');
         console.log('\t Finished static site generation');
@@ -56,18 +55,6 @@ var Main = (function () {
         var actualDir = '';
         this.files.forEach(function (file) {
             var fileInfoNav = path.parse(file);
-            if (fileInfoNav.dir !== '' && actualDir === fileInfoNav.dir) {
-                _this.navigation = {
-                    parent: actualDir = fileInfoNav.dir,
-                    items: []
-                };
-                _this.navigationItem = {
-                    name: fileInfoNav.name,
-                    link: fileInfoNav.dir
-                };
-                _this.navigation.items = [];
-                _this.navigation.items.push(_this.navigationItem);
-            }
             if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
                 _this.navigation = {
                     parent: actualDir = fileInfoNav.dir,
@@ -88,58 +75,58 @@ var Main = (function () {
                 _this.navigation.items.push(_this.navigationItem);
             }
             actualDir = fileInfoNav.dir;
-        }, this.navigations.push(this.navigation));
+            _this.navigations.push(_this.navigation);
+        });
+        this.navigations.forEach(function (navigation) {
+            console.log('_: ', navigation);
+            navigation.items.forEach(function (element) {
+                element.name + element.link;
+            });
+        });
     };
-    ;
+    Main.prototype.generateAllFiles = function () {
+        var _this = this;
+        this.files.forEach(function (file) {
+            var fileInfo = path.parse(file);
+            console.log(fileInfo);
+            var fileCopyPath = path.join(_this.distPath, fileInfo.dir);
+            fs.mkdirpSync(fileCopyPath);
+            var pageFile = fs.readFileSync(_this.srcPath + "/" + _this.srcPathSites + "/" + file, 'utf-8');
+            var pageData = frontMatter(pageFile);
+            var actualDate = moment().format('LLL');
+            var templateConfig = Object.assign({}, {
+                lastupdate: actualDate,
+                navData: _this.navigations
+            }, config, {
+                page: pageData.attributes
+            });
+            var pageContent;
+            switch (fileInfo.ext) {
+                case '.md':
+                    var converter = new showdown.Converter();
+                    pageContent = converter.makeHtml(pageData.body);
+                    break;
+                case '.ejs':
+                    pageContent = ejs.render(pageData.body, templateConfig, {
+                        filename: "" + _this.srcPath + _this.srcPathSites + "/" + file
+                    });
+                    break;
+                default:
+                    pageContent = pageData.body;
+            }
+            var layout = pageData.attributes['layout'] || 'default';
+            var layoutFileName = _this.srcPath + "/" + _this.srcPathLayouts + "/" + layout + ".ejs";
+            var layoutData = fs.readFileSync(layoutFileName, 'utf-8');
+            var finalPage = ejs.render(layoutData, Object.assign({}, templateConfig, {
+                body: pageContent,
+                filename: layoutFileName
+            }));
+            fs.writeFileSync(_this.distPath + "/" + fileInfo.dir + "/" + fileInfo.name + ".html", finalPage, 'utf-8');
+        });
+    };
     return Main;
 }());
 exports.Main = Main;
-this.navigations.forEach(function (navigation) {
-    console.log('_: ', navigation);
-    navigation.items.forEach(function (element) {
-        element.name + element.link;
-    });
-});
-crwlAllFiles();
-{
-    this.files.forEach(function (file) {
-        var fileInfo = path.parse(file);
-        console.log(fileInfo);
-        var fileCopyPath = path.join(_this.distPath, fileInfo.dir);
-        fs.mkdirpSync(fileCopyPath);
-        var pageFile = fs.readFileSync(_this.srcPath + "/" + _this.srcPathSites + "/" + file, 'utf-8');
-        var pageData = frontMatter(pageFile);
-        var actualDate = moment().format('LLL');
-        var templateConfig = Object.assign({}, {
-            lastupdate: actualDate,
-            navData: _this.navigations
-        }, config, {
-            page: pageData.attributes
-        });
-        var pageContent;
-        switch (fileInfo.ext) {
-            case '.md':
-                var converter = new showdown.Converter();
-                pageContent = converter.makeHtml(pageData.body);
-                break;
-            case '.ejs':
-                pageContent = ejs.render(pageData.body, templateConfig, {
-                    filename: "" + _this.srcPath + _this.srcPathSites + "/" + file
-                });
-                break;
-            default:
-                pageContent = pageData.body;
-        }
-        var layout = pageData.attributes['layout'] || 'default';
-        var layoutFileName = _this.srcPath + "/" + _this.srcPathLayouts + "/" + layout + ".ejs";
-        var layoutData = fs.readFileSync(layoutFileName, 'utf-8');
-        var finalPage = ejs.render(layoutData, Object.assign({}, templateConfig, {
-            body: pageContent,
-            filename: layoutFileName
-        }));
-        fs.writeFileSync(_this.distPath + "/" + fileInfo.dir + "/" + fileInfo.name + ".html", finalPage, 'utf-8');
-    });
-}
 var main = new Main();
 main.init();
 //# sourceMappingURL=dwncrwlr.js.map

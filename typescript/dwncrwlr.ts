@@ -74,18 +74,18 @@ export class Main {
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
 
-      if (fileInfoNav.dir !== '' && actualDir === fileInfoNav.dir) {
-        this.navigation = {
-          parent: actualDir = fileInfoNav.dir,
-          items: []
-        };
-        this.navigationItem = {
-          name: fileInfoNav.name,
-          link: fileInfoNav.dir
-        };
-        this.navigation.items = [];
-        this.navigation.items.push(this.navigationItem);
-      }
+  //     // if (fileInfoNav.dir !== '' && actualDir === fileInfoNav.dir) {
+  //       // this.navigation = {
+  //       //   parent: actualDir = fileInfoNav.dir,
+  //       //   items: []
+  //       // };
+  //       // this.navigationItem = {
+  //       //   name: fileInfoNav.name,
+  //       //   link: fileInfoNav.dir
+  //       // };
+  //       // this.navigation.items = [];
+  //       // this.navigation.items.push(this.navigationItem);
+  //     // }
 
         if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
           this.navigation = {
@@ -106,7 +106,6 @@ export class Main {
           this.navigation.items.push(this.navigationItem); // ... and push it to root
         }
         actualDir = fileInfoNav.dir;
-      }
       this.navigations.push(this.navigation);
     });
 
