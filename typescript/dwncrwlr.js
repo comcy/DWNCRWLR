@@ -7,6 +7,8 @@ var glob = require("glob");
 var showdown = require("showdown");
 var frontMatter = require("front-matter");
 var moment = require("moment");
+var navigation_1 = require("./navigation");
+var navigation_item_1 = require("./navigation-item");
 var console_style_1 = require("./console-style");
 var config = require('../dwncrwlr.config.json');
 var Main = (function () {
@@ -52,30 +54,31 @@ var Main = (function () {
     };
     Main.prototype.createNavigation = function () {
         var _this = this;
-        var actualDir = '';
+        var ifCount = 0;
+        var elseCount = 0;
+        var actualDirectory = '';
+        var actualNavigation;
         this.files.forEach(function (file) {
             var fileInfoNav = path.parse(file);
-            if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
-                _this.navigation = {
-                    parent: actualDir = fileInfoNav.dir,
-                    items: []
-                };
-                _this.navigationItem = {
-                    name: fileInfoNav.name,
-                    link: fileInfoNav.dir
-                };
-                _this.navigation.items.push(_this.navigationItem);
+            if (fileInfoNav.dir !== '' && actualDirectory !== fileInfoNav.dir) {
+                _this.navigation = new navigation_1.Navigation(fileInfoNav.dir);
+                _this.navigation.setItem(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir));
+                actualDirectory = fileInfoNav.dir;
+                actualNavigation = _this.navigation;
+                console.log('if-count: ' + ifCount++);
+                console.log(_this.navigation);
+                console.log(_this.navigationItem);
             }
             else {
-                _this.navigation.parent = actualDir;
-                _this.navigationItem = {
-                    name: fileInfoNav.name,
-                    link: fileInfoNav.dir
-                };
-                _this.navigation.items.push(_this.navigationItem);
+                _this.navigationItem = new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir);
+                actualNavigation.setItem(_this.navigationItem);
+                console.log('else-count: ' + elseCount++);
+                console.log(actualNavigation);
+                console.log(_this.navigationItem);
             }
-            actualDir = fileInfoNav.dir;
-            _this.navigations.push(_this.navigation);
+            _this.navigations.push(actualNavigation);
+            _this.navigation = null;
+            actualDirectory = fileInfoNav.dir;
         });
         this.navigations.forEach(function (navigation) {
             console.log('_: ', navigation);
