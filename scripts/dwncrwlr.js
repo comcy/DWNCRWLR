@@ -53,10 +53,10 @@ files.forEach(file => {
 
   const fileInfoNav = path.parse(file);
 
-  navItem.dir = fileInfoNav.dir;
-  navItem.name = fileInfoNav.name;
+  // navItem.dir = fileInfoNav.dir;
+  // navItem.name = fileInfoNav.name;
 
-  if (fileInfoNav.dir !== '') {
+  // if (fileInfoNav.dir !== '') {
     if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
       navItem.root = actualDir = fileInfoNav.dir; // actual folder is root
       // navChild = { dir: fileInfoNav.dir, name: fileInfoNav.name }; // assign first child ...
@@ -68,7 +68,7 @@ files.forEach(file => {
     }
     navArr.push(navItem);
     actualDir = fileInfoNav.dir;
-  }
+  // }
 });
 console.log('_: ', navArr);
 

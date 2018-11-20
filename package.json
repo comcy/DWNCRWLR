@@ -8,13 +8,14 @@
     },
     "scripts": {
         "build": "npm run styles && npm run generate",
-        "build:ts": "npm run styles && npm run generate:ts",
+        "build:ts": "npm run tsc && npm run styles && npm run generate:ts",
         "build:dev": "npm run styles && npm run generate && npm run serve",
         "styles": "node-sass ./src/styles/scss/index.scss ./src/assets/css/styles.css",
         "styles:watch": "node-sass --watch ./src/styles/scss/index.scss ./src/assets/css/styles.css",
         "generate": "node ./scripts/dwncrwlr.js",
         "generate:ts": "node ./typescript/dwncrwlr.js",
         "watch": "watch 'npm run build' ./src",
+        "tsc": "tsc",
         "serve": "serve ./dist"
     },
     "keywords": [],
