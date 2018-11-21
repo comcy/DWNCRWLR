@@ -5,7 +5,8 @@ import * as glob from 'glob';
 import * as showdown from 'showdown';
 import * as frontMatter from 'front-matter';
 import * as moment from 'moment';
-import { Navigation, NavigationItem } from './navigation-item';
+import { Navigation } from './navigation';
+import { NavigationItem } from './navigation-item';
 
 import { style } from './console-style';
 
@@ -27,7 +28,7 @@ export class Main {
   private navigation: Navigation;
   private navigations: Navigation[] = [];
 
-  constructor() {}
+  constructor() { }
 
   public init() {
     console.log(style.textFgRed, style.asciiLogo);
@@ -70,44 +71,49 @@ export class Main {
   }
 
   private createNavigation() {
-    let actualDir = '';
+    let ifCount: number = 0;
+    let elseCount: number = 0;
+    let actualDirectory = '';
+    let actualNavigation: Navigation;
+
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
+      //     // if (fileInfoNav.dir !== '' && actualDirectory === fileInfoNav.dir) {
+      //       // this.navigation = {
+      //       //   parent: actualDirectory = fileInfoNav.dir,
+      //       //   items: []
+      //       // };
+      //       // this.navigationItem = {
+      //       //   name: fileInfoNav.name,
+      //       //   link: fileInfoNav.dir
+      //       // };
+      //       // this.navigation.items = [];
+      //       // this.navigation.items.push(this.navigationItem);
+      //     // }
 
-      if (fileInfoNav.dir !== '' && actualDir === fileInfoNav.dir) {
-        this.navigation = {
-          parent: actualDir = fileInfoNav.dir,
-          items: []
-        };
-        this.navigationItem = {
-          name: fileInfoNav.name,
-          link: fileInfoNav.dir
-        };
-        this.navigation.items = [];
-        this.navigation.items.push(this.navigationItem);
+      // check if root and actual folder is not already assigned = init
+      if (fileInfoNav.dir !== '' && actualDirectory !== fileInfoNav.dir) {
+        this.navigation = new Navigation(fileInfoNav.dir);
+        this.navigation.setItem(new NavigationItem(fileInfoNav.name, fileInfoNav.dir)); // ... and push it to root
+
+        actualDirectory = fileInfoNav.dir;
+        actualNavigation = this.navigation;
+
+        // console.log('if-count: ' + ifCount++);
+        // console.log(this.navigation);
+        // console.log(this.navigationItem);
+      }
+      else { // act == dir
+        this.navigationItem = new NavigationItem(fileInfoNav.name, fileInfoNav.dir);
+        actualNavigation.setItem(this.navigationItem);//new NavigationItem(fileInfoNav.name, fileInfoNav.dir)); // ... and push it to root
+        // console.log('else-count: ' + elseCount++);
+        // console.log(actualNavigation);
+        // console.log(this.navigationItem);
       }
 
-        if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
-          this.navigation = {
-            parent: actualDir = fileInfoNav.dir,
-            items: []
-          };
-          this.navigationItem = {
-            name: fileInfoNav.name,
-            link: fileInfoNav.dir
-          };
-          this.navigation.items.push(this.navigationItem); // ... and push it to root
-        } else {
-          this.navigation.parent = actualDir;
-          this.navigationItem = {
-            name: fileInfoNav.name,
-            link: fileInfoNav.dir
-          };
-          this.navigation.items.push(this.navigationItem); // ... and push it to root
-        }
-        actualDir = fileInfoNav.dir;
-      }
-      this.navigations.push(this.navigation);
+      this.navigations.push(actualNavigation);
+      this.navigation = null
+      actualDirectory = fileInfoNav.dir;
     });
 
     // Navigation structure:
@@ -123,7 +129,7 @@ export class Main {
   private generateAllFiles() {
     this.files.forEach(file => {
       const fileInfo = path.parse(file);
-      console.log(fileInfo);
+      // console.log(fileInfo);
       const fileCopyPath = path.join(this.distPath, fileInfo.dir);
       fs.mkdirpSync(fileCopyPath);
 
@@ -166,7 +172,7 @@ export class Main {
       const layout = pageData.attributes['layout'] || 'default';
       const layoutFileName = `${this.srcPath}/${
         this.srcPathLayouts
-      }/${layout}.ejs`;
+        }/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
       const finalPage = ejs.render(

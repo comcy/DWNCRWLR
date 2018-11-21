@@ -1,5 +1,4 @@
 "use strict";
-var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs-extra");
 var path = require("path");
@@ -8,6 +7,8 @@ var glob = require("glob");
 var showdown = require("showdown");
 var frontMatter = require("front-matter");
 var moment = require("moment");
+var navigation_1 = require("./navigation");
+var navigation_item_1 = require("./navigation-item");
 var console_style_1 = require("./console-style");
 var config = require('../dwncrwlr.config.json');
 var Main = (function () {
@@ -30,7 +31,7 @@ var Main = (function () {
         this.copyAssets();
         this.loadAllFiles();
         this.createNavigation();
-        this.crwlAllFiles();
+        this.generateAllFiles();
         console.log('\n', console_style_1.style.textFgMagenta);
         console.log('//-----------------------------------------------------');
         console.log('\t Finished static site generation');
@@ -53,93 +54,75 @@ var Main = (function () {
     };
     Main.prototype.createNavigation = function () {
         var _this = this;
-        var actualDir = '';
+        var ifCount = 0;
+        var elseCount = 0;
+        var actualDirectory = '';
+        var actualNavigation;
         this.files.forEach(function (file) {
             var fileInfoNav = path.parse(file);
-            if (fileInfoNav.dir !== '' && actualDir === fileInfoNav.dir) {
-                _this.navigation = {
-                    parent: actualDir = fileInfoNav.dir,
-                    items: []
-                };
-                _this.navigationItem = {
-                    name: fileInfoNav.name,
-                    link: fileInfoNav.dir
-                };
-                _this.navigation.items = [];
-                _this.navigation.items.push(_this.navigationItem);
-            }
-            if (fileInfoNav.dir !== '' && actualDir !== fileInfoNav.dir) {
-                _this.navigation = {
-                    parent: actualDir = fileInfoNav.dir,
-                    items: []
-                };
-                _this.navigationItem = {
-                    name: fileInfoNav.name,
-                    link: fileInfoNav.dir
-                };
-                _this.navigation.items.push(_this.navigationItem);
+            if (fileInfoNav.dir !== '' && actualDirectory !== fileInfoNav.dir) {
+                _this.navigation = new navigation_1.Navigation(fileInfoNav.dir);
+                _this.navigation.setItem(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir));
+                actualDirectory = fileInfoNav.dir;
+                actualNavigation = _this.navigation;
             }
             else {
-                _this.navigation.parent = actualDir;
-                _this.navigationItem = {
-                    name: fileInfoNav.name,
-                    link: fileInfoNav.dir
-                };
-                _this.navigation.items.push(_this.navigationItem);
+                _this.navigationItem = new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir);
+                actualNavigation.setItem(_this.navigationItem);
             }
-            actualDir = fileInfoNav.dir;
-        }, this.navigations.push(this.navigation));
+            _this.navigations.push(actualNavigation);
+            _this.navigation = null;
+            actualDirectory = fileInfoNav.dir;
+        });
+        this.navigations.forEach(function (navigation) {
+            console.log('_: ', navigation);
+            navigation.items.forEach(function (element) {
+                element.name + element.link;
+            });
+        });
     };
-    ;
+    Main.prototype.generateAllFiles = function () {
+        var _this = this;
+        this.files.forEach(function (file) {
+            var fileInfo = path.parse(file);
+            var fileCopyPath = path.join(_this.distPath, fileInfo.dir);
+            fs.mkdirpSync(fileCopyPath);
+            var pageFile = fs.readFileSync(_this.srcPath + "/" + _this.srcPathSites + "/" + file, 'utf-8');
+            var pageData = frontMatter(pageFile);
+            var actualDate = moment().format('LLL');
+            var templateConfig = Object.assign({}, {
+                lastupdate: actualDate,
+                navData: _this.navigations
+            }, config, {
+                page: pageData.attributes
+            });
+            var pageContent;
+            switch (fileInfo.ext) {
+                case '.md':
+                    var converter = new showdown.Converter();
+                    pageContent = converter.makeHtml(pageData.body);
+                    break;
+                case '.ejs':
+                    pageContent = ejs.render(pageData.body, templateConfig, {
+                        filename: "" + _this.srcPath + _this.srcPathSites + "/" + file
+                    });
+                    break;
+                default:
+                    pageContent = pageData.body;
+            }
+            var layout = pageData.attributes['layout'] || 'default';
+            var layoutFileName = _this.srcPath + "/" + _this.srcPathLayouts + "/" + layout + ".ejs";
+            var layoutData = fs.readFileSync(layoutFileName, 'utf-8');
+            var finalPage = ejs.render(layoutData, Object.assign({}, templateConfig, {
+                body: pageContent,
+                filename: layoutFileName
+            }));
+            fs.writeFileSync(_this.distPath + "/" + fileInfo.dir + "/" + fileInfo.name + ".html", finalPage, 'utf-8');
+        });
+    };
     return Main;
 }());
 exports.Main = Main;
-this.navigations.forEach(function (navigation) {
-    console.log('_: ', navigation);
-    navigation.items.forEach(function (element) {
-        element.name + element.link;
-    });
-});
-crwlAllFiles();
-{
-    this.files.forEach(function (file) {
-        var fileInfo = path.parse(file);
-        console.log(fileInfo);
-        var fileCopyPath = path.join(_this.distPath, fileInfo.dir);
-        fs.mkdirpSync(fileCopyPath);
-        var pageFile = fs.readFileSync(_this.srcPath + "/" + _this.srcPathSites + "/" + file, 'utf-8');
-        var pageData = frontMatter(pageFile);
-        var actualDate = moment().format('LLL');
-        var templateConfig = Object.assign({}, {
-            lastupdate: actualDate,
-            navData: _this.navigations
-        }, config, {
-            page: pageData.attributes
-        });
-        var pageContent;
-        switch (fileInfo.ext) {
-            case '.md':
-                var converter = new showdown.Converter();
-                pageContent = converter.makeHtml(pageData.body);
-                break;
-            case '.ejs':
-                pageContent = ejs.render(pageData.body, templateConfig, {
-                    filename: "" + _this.srcPath + _this.srcPathSites + "/" + file
-                });
-                break;
-            default:
-                pageContent = pageData.body;
-        }
-        var layout = pageData.attributes['layout'] || 'default';
-        var layoutFileName = _this.srcPath + "/" + _this.srcPathLayouts + "/" + layout + ".ejs";
-        var layoutData = fs.readFileSync(layoutFileName, 'utf-8');
-        var finalPage = ejs.render(layoutData, Object.assign({}, templateConfig, {
-            body: pageContent,
-            filename: layoutFileName
-        }));
-        fs.writeFileSync(_this.distPath + "/" + fileInfo.dir + "/" + fileInfo.name + ".html", finalPage, 'utf-8');
-    });
-}
 var main = new Main();
 main.init();
 //# sourceMappingURL=dwncrwlr.js.map

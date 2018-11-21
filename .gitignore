@@ -4,6 +4,7 @@ npm-debug.log
 
 # TypeScript
 /src/**.js
+/typescript/**.js
 **.map
 **.d.ts
 **.ngsummary.json
