@@ -26,9 +26,9 @@ export class Main {
 
   private navigationItem: NavigationItem;
   private navigation: Navigation;
-  private navigations: Navigation[] = [];
+  private menu: Navigation[] = [];
 
-  constructor() { }
+  constructor() {}
 
   public init() {
     console.log(style.textFgRed, style.asciiLogo);
@@ -73,60 +73,61 @@ export class Main {
   private createNavigation() {
     let ifCount: number = 0;
     let elseCount: number = 0;
-    let actualDirectory = '';
-    let actualNavigation: Navigation;
+    let dirFlag = '';
+    let actualNavigation: Navigation[];
 
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
-      //     // if (fileInfoNav.dir !== '' && actualDirectory === fileInfoNav.dir) {
-      //       // this.navigation = {
-      //       //   parent: actualDirectory = fileInfoNav.dir,
-      //       //   items: []
-      //       // };
-      //       // this.navigationItem = {
-      //       //   name: fileInfoNav.name,
-      //       //   link: fileInfoNav.dir
-      //       // };
-      //       // this.navigation.items = [];
-      //       // this.navigation.items.push(this.navigationItem);
-      //     // }
 
-      // check if root and actual folder is not already assigned = init
-      if (fileInfoNav.dir !== '' && actualDirectory !== fileInfoNav.dir) {
-        this.navigation = new Navigation(fileInfoNav.dir);
-        this.navigation.setItem(new NavigationItem(fileInfoNav.name, fileInfoNav.dir)); // ... and push it to root
+      if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
+        this.navigation = new Navigation(
+          fileInfoNav.dir,
+          new Array(new NavigationItem(fileInfoNav.name, fileInfoNav.dir))
+        );
+        // this.navigation.setItem(
+        //   new NavigationItem(fileInfoNav.name, fileInfoNav.dir)
+        // );
 
-        actualDirectory = fileInfoNav.dir;
-        actualNavigation = this.navigation;
+        dirFlag = fileInfoNav.dir;
+        // actualNavigation.push(this.navigation);
 
-        // console.log('if-count: ' + ifCount++);
-        // console.log(this.navigation);
-        // console.log(this.navigationItem);
-      }
-      else { // act == dir
-        this.navigationItem = new NavigationItem(fileInfoNav.name, fileInfoNav.dir);
-        actualNavigation.setItem(this.navigationItem);//new NavigationItem(fileInfoNav.name, fileInfoNav.dir)); // ... and push it to root
-        // console.log('else-count: ' + elseCount++);
-        // console.log(actualNavigation);
-        // console.log(this.navigationItem);
+        console.log('if-count: ' + ifCount++);
+        console.log(this.navigation);
+      } else {
+        this.navigation.items.push(
+          new NavigationItem(fileInfoNav.name, fileInfoNav.dir)
+        );
+
+        console.log('else-count: ' + elseCount++);
+        console.log(this.navigation);
+        // this.menu.push(this.navigation);
       }
 
-      this.navigations.push(actualNavigation);
-      this.navigation = null
-      actualDirectory = fileInfoNav.dir;
-    });
+      // this.menu.push(this.navigation);
+      // console.log('####################################################');
+      // console.log('> ', this.menu);
+      // console.log('####################################################');
+      // // this.navigation = null;
 
-    // Navigation structure:
-    this.navigations.forEach(navigation => {
-      console.log('_: ', navigation);
-      navigation.items.forEach(element => {
-        element.name + element.link;
-        // console.log('childs >>>: ', element.name + ' - ' + element.link);
-      });
+      // dirFlag = fileInfoNav.dir;
     });
+    this.menu.push(this.navigation);
+    console.log('####################################################');
+    console.log('> ', this.menu);
+    console.log('####################################################');
   }
 
   private generateAllFiles() {
+    // TODO: remove later on
+    // Navigation structure:
+    // this.menu.forEach(navigation => {
+    //   console.log('_: ', this.menu);
+    //   navigation.items.forEach(element => {
+    //     element.name + element.link;
+    //     // console.log('childs >>>: ', element.name + ' - ' + element.link);
+    //   });
+    // });
+
     this.files.forEach(file => {
       const fileInfo = path.parse(file);
       // console.log(fileInfo);
@@ -144,7 +145,7 @@ export class Main {
         {},
         {
           lastupdate: actualDate,
-          navData: this.navigations
+          navData: this.menu
         },
         config,
         {
@@ -172,7 +173,7 @@ export class Main {
       const layout = pageData.attributes['layout'] || 'default';
       const layoutFileName = `${this.srcPath}/${
         this.srcPathLayouts
-        }/${layout}.ejs`;
+      }/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
       const finalPage = ejs.render(

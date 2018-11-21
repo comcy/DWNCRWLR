@@ -18,7 +18,7 @@ var Main = (function () {
         this.srcPathLayouts = config.build.srcPathLayouts;
         this.distPath = config.build.distPath;
         this.supportedExtensions = config.build.supportedContentExtensionsPattern;
-        this.navigations = [];
+        this.menu = [];
     }
     Main.prototype.init = function () {
         console.log(console_style_1.style.textFgRed, console_style_1.style.asciiLogo);
@@ -56,30 +56,26 @@ var Main = (function () {
         var _this = this;
         var ifCount = 0;
         var elseCount = 0;
-        var actualDirectory = '';
+        var dirFlag = '';
         var actualNavigation;
         this.files.forEach(function (file) {
             var fileInfoNav = path.parse(file);
-            if (fileInfoNav.dir !== '' && actualDirectory !== fileInfoNav.dir) {
-                _this.navigation = new navigation_1.Navigation(fileInfoNav.dir);
-                _this.navigation.setItem(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir));
-                actualDirectory = fileInfoNav.dir;
-                actualNavigation = _this.navigation;
+            if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
+                _this.navigation = new navigation_1.Navigation(fileInfoNav.dir, new Array(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir)));
+                dirFlag = fileInfoNav.dir;
+                console.log('if-count: ' + ifCount++);
+                console.log(_this.navigation);
             }
             else {
-                _this.navigationItem = new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir);
-                actualNavigation.setItem(_this.navigationItem);
+                _this.navigation.items.push(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir));
+                console.log('else-count: ' + elseCount++);
+                console.log(_this.navigation);
             }
-            _this.navigations.push(actualNavigation);
-            _this.navigation = null;
-            actualDirectory = fileInfoNav.dir;
         });
-        this.navigations.forEach(function (navigation) {
-            console.log('_: ', navigation);
-            navigation.items.forEach(function (element) {
-                element.name + element.link;
-            });
-        });
+        this.menu.push(this.navigation);
+        console.log('####################################################');
+        console.log('> ', this.menu);
+        console.log('####################################################');
     };
     Main.prototype.generateAllFiles = function () {
         var _this = this;
@@ -92,7 +88,7 @@ var Main = (function () {
             var actualDate = moment().format('LLL');
             var templateConfig = Object.assign({}, {
                 lastupdate: actualDate,
-                navData: _this.navigations
+                navData: _this.menu
             }, config, {
                 page: pageData.attributes
             });

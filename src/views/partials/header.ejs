@@ -12,10 +12,10 @@
         <li>
           <a href="<%= site.baseHref %>" class="btn"> <%= site.homelabel %> </a>
         </li>
-        <% navData.forEach( (item)=> { %>
+        <% navData.forEach( (nav)=> { %>
         <li>
-          <a href="/<%= item.dir %>/<%= item.name %>">
-            <%= item.link %>/<%= item.name %>
+          <a href="/<%= nav.dir %>/<%= nav.name %>">
+            <%= nav.parent %>
           </a>
         </li>
         <% }) %>
