@@ -7,9 +7,8 @@ var glob = require("glob");
 var showdown = require("showdown");
 var frontMatter = require("front-matter");
 var moment = require("moment");
-var navigation_1 = require("./navigation");
-var navigation_item_1 = require("./navigation-item");
-var console_style_1 = require("./console-style");
+var models_1 = require("./models");
+var helpers_1 = require("./helpers");
 var config = require('../dwncrwlr.config.json');
 var Main = (function () {
     function Main() {
@@ -18,21 +17,20 @@ var Main = (function () {
         this.srcPathLayouts = config.build.srcPathLayouts;
         this.distPath = config.build.distPath;
         this.supportedExtensions = config.build.supportedContentExtensionsPattern;
-        this.menu = [];
     }
     Main.prototype.init = function () {
-        console.log(console_style_1.style.textFgRed, console_style_1.style.asciiLogo);
-        console.log('\n', console_style_1.style.textFgMagenta);
+        console.log(helpers_1.consoleStyle.textFgRed, helpers_1.consoleStyle.asciiLogo);
+        console.log('\n', helpers_1.consoleStyle.textFgMagenta);
         console.log('//-----------------------------------------------------');
         console.log('\t Starting static site generation');
         console.log('//-----------------------------------------------------');
-        console.log('\n', console_style_1.style.styleReset);
+        console.log('\n', helpers_1.consoleStyle.styleReset);
         this.cleanUpDist();
         this.copyAssets();
         this.loadAllFiles();
         this.createNavigation();
         this.generateAllFiles();
-        console.log('\n', console_style_1.style.textFgMagenta);
+        console.log('\n', helpers_1.consoleStyle.textFgMagenta);
         console.log('//-----------------------------------------------------');
         console.log('\t Finished static site generation');
         console.log('//-----------------------------------------------------');
@@ -45,44 +43,29 @@ var Main = (function () {
     };
     Main.prototype.loadAllFiles = function () {
         console.log('Supported file extensions:');
-        console.log(console_style_1.style.textFgGreen, "" + this.supportedExtensions);
+        console.log(helpers_1.consoleStyle.textFgGreen, "" + this.supportedExtensions);
         this.files = glob.sync("**/*.@(" + this.supportedExtensions + ")", {
             cwd: this.srcPath + "/" + this.srcPathSites
         });
-        console.log('\n', console_style_1.style.styleReset);
+        console.log('\n', helpers_1.consoleStyle.styleReset);
         console.log('Detected files:\n', this.files);
     };
     Main.prototype.createNavigation = function () {
         var _this = this;
-        var ifCount = 0;
-        var elseCount = 0;
         var dirFlag = '';
-        var actualNavigation;
         this.files.forEach(function (file) {
             var fileInfoNav = path.parse(file);
-            var fileContent = _this.readFileContents(_this.srcPath + "/" + _this.srcPathSites, file);
+            var fileContent = helpers_1.readFileContents(_this.srcPath + "/" + _this.srcPathSites, file);
             var fileMetadata = frontMatter(fileContent);
-            console.log('meta: ', fileMetadata);
             if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
-                _this.navigation = new navigation_1.Navigation(fileInfoNav.dir, new Array(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName'])));
                 dirFlag = fileInfoNav.dir;
-                console.log('if-count: ' + ifCount++);
-                console.log(_this.navigation);
+                _this.navigation = new helpers_1.NavigationCollection();
+                _this.navigation.Add(dirFlag, new models_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']));
+                dirFlag = fileInfoNav.dir;
             }
             else {
-                _this.navigation.items.push(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']));
-                console.log('else-count: ' + elseCount++);
-                console.log(_this.navigation);
             }
-            _this.menu.push(_this.navigation);
-            console.log('####################################################');
-            console.log('> ', _this.menu);
-            console.log('####################################################');
         });
-    };
-    Main.prototype.readFileContents = function (path, fileName, encoding) {
-        if (encoding === void 0) { encoding = 'utf-8'; }
-        return fs.readFileSync(path + "/" + fileName, encoding);
     };
     Main.prototype.generateAllFiles = function () {
         var _this = this;
@@ -90,12 +73,12 @@ var Main = (function () {
             var fileInfo = path.parse(file);
             var fileCopyPath = path.join(_this.distPath, fileInfo.dir);
             fs.mkdirpSync(fileCopyPath);
-            var pageFile = _this.readFileContents(_this.srcPath + "/" + _this.srcPathSites, file);
+            var pageFile = helpers_1.readFileContents(_this.srcPath + "/" + _this.srcPathSites, file);
             var pageData = frontMatter(pageFile);
             var actualDate = moment().format('LLL');
             var templateConfig = Object.assign({}, {
                 lastupdate: actualDate,
-                navData: _this.menu
+                navData: _this.navigation
             }, config, {
                 page: pageData.attributes
             });

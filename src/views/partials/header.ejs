@@ -4,21 +4,19 @@
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#">
-        <span class="glyphicon glyphicon glyphicon-cloud-download"></span>
-        <%=
+        <span class="glyphicon glyphicon glyphicon-cloud-download"></span> <%=
         site.title %>
       </a>
 
       <ul class="nav navbar-nav">
         <li>
-          <a href="<%= site.baseHref %>" class="btn">
-            <%= site.homelabel %> </a>
+          <a href="<%= site.baseHref %>" class="btn"> <%= site.homelabel %> </a>
         </li>
         <% navData.forEach( ( navigations ) => { %>
         <li>
-          <% navigations.items.forEach( ( item ) => { %>
-          <a href="/<%= item.link %>/<%= item.name %>">
-            <%= item.displayName %>
+          <% navigations.items.forEach( ( navItem ) => { %>
+          <a href="/<%= navItem.link %>/<%= navItem.name %>">
+            <%= navItem.displayName %>
           </a>
           <% }) %>
         </li>

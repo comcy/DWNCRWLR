@@ -9,6 +9,7 @@ var NavigationItem = (function () {
             this.displayName = name;
         else
             this.displayName = displayName;
+        console.log('NavigationItem created');
     }
     NavigationItem.prototype.setName = function (name) {
         this.name = name;

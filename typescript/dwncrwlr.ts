@@ -5,10 +5,12 @@ import * as glob from 'glob';
 import * as showdown from 'showdown';
 import * as frontMatter from 'front-matter';
 import * as moment from 'moment';
-import { Navigation } from './navigation';
-import { NavigationItem } from './navigation-item';
-
-import { style } from './console-style';
+import { NavigationItem } from './models';
+import {
+  consoleStyle,
+  readFileContents,
+  NavigationCollection
+} from './helpers';
 
 const config = require('../dwncrwlr.config.json');
 
@@ -24,19 +26,19 @@ export class Main {
   // Build declarations
   private files;
 
-  private navigationItem: NavigationItem;
-  private navigation: Navigation;
-  private menu: Navigation[] = [];
+  // private navigationItem: NavigationItem;
+  private navigation: NavigationCollection<NavigationItem>;
+  // private menu: Navigation[] = [];
 
   constructor() {}
 
   public init() {
-    console.log(style.textFgRed, style.asciiLogo);
-    console.log('\n', style.textFgMagenta);
+    console.log(consoleStyle.textFgRed, consoleStyle.asciiLogo);
+    console.log('\n', consoleStyle.textFgMagenta);
     console.log('//-----------------------------------------------------');
     console.log('\t Starting static site generation');
     console.log('//-----------------------------------------------------');
-    console.log('\n', style.styleReset);
+    console.log('\n', consoleStyle.styleReset);
 
     this.cleanUpDist();
     this.copyAssets();
@@ -44,7 +46,7 @@ export class Main {
     this.createNavigation();
     this.generateAllFiles();
 
-    console.log('\n', style.textFgMagenta);
+    console.log('\n', consoleStyle.textFgMagenta);
     console.log('//-----------------------------------------------------');
     console.log('\t Finished static site generation');
     console.log('//-----------------------------------------------------');
@@ -60,77 +62,74 @@ export class Main {
 
   private loadAllFiles() {
     console.log('Supported file extensions:');
-    console.log(style.textFgGreen, `${this.supportedExtensions}`);
+    console.log(consoleStyle.textFgGreen, `${this.supportedExtensions}`);
 
     this.files = glob.sync(`**/*.@(${this.supportedExtensions})`, {
       cwd: `${this.srcPath}/${this.srcPathSites}`
     });
 
-    console.log('\n', style.styleReset);
+    console.log('\n', consoleStyle.styleReset);
     console.log('Detected files:\n', this.files);
   }
 
   private createNavigation() {
-    let ifCount: number = 0;
-    let elseCount: number = 0;
     let dirFlag = '';
-    let actualNavigation: Navigation[];
 
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
-      const fileContent = this.readFileContents(`${this.srcPath}/${this.srcPathSites}`, file);
+      const fileContent = readFileContents(
+        `${this.srcPath}/${this.srcPathSites}`,
+        file
+      );
       const fileMetadata = frontMatter(fileContent);
 
-      console.log('meta: ', fileMetadata);
-
       if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
-        this.navigation = new Navigation(
-          fileInfoNav.dir,
-          new Array(new NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']))
-        );
-        // this.navigation.setItem(
-        //   new NavigationItem(fileInfoNav.name, fileInfoNav.dir)
-        // );
-
         dirFlag = fileInfoNav.dir;
-        // actualNavigation.push(this.navigation);
+        this.navigation = new NavigationCollection<NavigationItem>();
 
-        console.log('if-count: ' + ifCount++);
-        console.log(this.navigation);
-      } else {
-        this.navigation.items.push(
-          new NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName'])
+        this.navigation.Add(
+          dirFlag,
+          new NavigationItem(
+            fileInfoNav.name,
+            fileInfoNav.dir,
+            fileMetadata.attributes['displayName']
+          )
         );
-
-        console.log('else-count: ' + elseCount++);
-        console.log(this.navigation);
-        // this.menu.push(this.navigation);
+        // this.navigation = new Navigation(
+        //   fileInfoNav.dir,
+        //   new Array(
+        //     new NavigationItem(
+        //       fileInfoNav.name,
+        //       fileInfoNav.dir,
+        //       fileMetadata.attributes['displayName']
+        //     )
+        //   )
+        // );
+        dirFlag = fileInfoNav.dir;
+      } else {
+        // this.navigation.setItem(
+        //   new NavigationItem(
+        //     fileInfoNav.name,
+        //     fileInfoNav.dir,
+        //     fileMetadata.attributes['displayName']
+        //   )
+        // );
+        // this.navigation.items.concat(
+        //   new NavigationItem(
+        //     fileInfoNav.name,
+        //     fileInfoNav.dir,
+        //     fileMetadata.attributes['displayName']
+        //   )
+        // );
       }
-
-      this.menu.push(this.navigation);
-      console.log('####################################################');
-      console.log('> ', this.menu);
-      console.log('####################################################');
-      // // this.navigation = null;
-
-      // dirFlag = fileInfoNav.dir;
+      // this.menu.push(this.navigation);
     });
-    // this.menu.push(this.navigation);
-    // console.log('####################################################');
-    // console.log('> ', this.menu);
-    // console.log('####################################################');
-  }
 
-  private readFileContents(path: string, fileName: string, encoding: string = 'utf-8'): string {
-    return fs.readFileSync(
-      `${path}/${fileName}`,
-      encoding
-    );
-  }
+    // console.log('####################################################');
+    // // console.log('> ', this.menu);
 
-  private generateAllFiles() {
-    // TODO: remove later on
-    // Navigation structure:
+    // // TODO: remove later on
+    // // Navigation structure:
     // this.menu.forEach(navigation => {
     //   console.log('_: ', this.menu);
     //   navigation.items.forEach(element => {
@@ -138,7 +137,10 @@ export class Main {
     //     // console.log('childs >>>: ', element.name + ' - ' + element.link);
     //   });
     // });
+    // console.log('####################################################');
+  }
 
+  private generateAllFiles() {
     this.files.forEach(file => {
       const fileInfo = path.parse(file);
       // console.log(fileInfo);
@@ -151,7 +153,10 @@ export class Main {
       //   'utf-8'
       // );
 
-      const pageFile = this.readFileContents(`${this.srcPath}/${this.srcPathSites}`, file);
+      const pageFile = readFileContents(
+        `${this.srcPath}/${this.srcPathSites}`,
+        file
+      );
 
       const pageData = frontMatter(pageFile);
       const actualDate = moment().format('LLL');
@@ -159,7 +164,7 @@ export class Main {
         {},
         {
           lastupdate: actualDate,
-          navData: this.menu
+          navData: this.navigation
         },
         config,
         {
@@ -206,6 +211,16 @@ export class Main {
       );
     });
   }
+
+  /**
+   *
+   * @param path
+   * @param fileName
+   * @param encoding
+   */
+  // private readFileContents(path: string, fileName: string, encoding: string = 'utf-8'): string {
+  //   return fs.readFileSync(`${path}/${fileName}`, encoding);
+  // }
 }
 
 let main = new Main();
