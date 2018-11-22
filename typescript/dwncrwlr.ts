@@ -78,11 +78,15 @@ export class Main {
 
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
+      const fileContent = this.readFileContents(`${this.srcPath}/${this.srcPathSites}`, file);
+      const fileMetadata = frontMatter(fileContent);
+
+      console.log('meta: ', fileMetadata);
 
       if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
         this.navigation = new Navigation(
           fileInfoNav.dir,
-          new Array(new NavigationItem(fileInfoNav.name, fileInfoNav.dir))
+          new Array(new NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']))
         );
         // this.navigation.setItem(
         //   new NavigationItem(fileInfoNav.name, fileInfoNav.dir)
@@ -95,7 +99,7 @@ export class Main {
         console.log(this.navigation);
       } else {
         this.navigation.items.push(
-          new NavigationItem(fileInfoNav.name, fileInfoNav.dir)
+          new NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName'])
         );
 
         console.log('else-count: ' + elseCount++);
@@ -103,18 +107,25 @@ export class Main {
         // this.menu.push(this.navigation);
       }
 
-      // this.menu.push(this.navigation);
-      // console.log('####################################################');
-      // console.log('> ', this.menu);
-      // console.log('####################################################');
+      this.menu.push(this.navigation);
+      console.log('####################################################');
+      console.log('> ', this.menu);
+      console.log('####################################################');
       // // this.navigation = null;
 
       // dirFlag = fileInfoNav.dir;
     });
-    this.menu.push(this.navigation);
-    console.log('####################################################');
-    console.log('> ', this.menu);
-    console.log('####################################################');
+    // this.menu.push(this.navigation);
+    // console.log('####################################################');
+    // console.log('> ', this.menu);
+    // console.log('####################################################');
+  }
+
+  private readFileContents(path: string, fileName: string, encoding: string = 'utf-8'): string {
+    return fs.readFileSync(
+      `${path}/${fileName}`,
+      encoding
+    );
   }
 
   private generateAllFiles() {
@@ -135,10 +146,13 @@ export class Main {
       fs.mkdirpSync(fileCopyPath);
 
       // Read content
-      const pageFile = fs.readFileSync(
-        `${this.srcPath}/${this.srcPathSites}/${file}`,
-        'utf-8'
-      );
+      // const pageFile = fs.readFileSync(
+      //   `${this.srcPath}/${this.srcPathSites}/${file}`,
+      //   'utf-8'
+      // );
+
+      const pageFile = this.readFileContents(`${this.srcPath}/${this.srcPathSites}`, file);
+
       const pageData = frontMatter(pageFile);
       const actualDate = moment().format('LLL');
       const templateConfig = Object.assign(

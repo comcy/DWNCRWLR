@@ -60,22 +60,29 @@ var Main = (function () {
         var actualNavigation;
         this.files.forEach(function (file) {
             var fileInfoNav = path.parse(file);
+            var fileContent = _this.readFileContents(_this.srcPath + "/" + _this.srcPathSites, file);
+            var fileMetadata = frontMatter(fileContent);
+            console.log('meta: ', fileMetadata);
             if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
-                _this.navigation = new navigation_1.Navigation(fileInfoNav.dir, new Array(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir)));
+                _this.navigation = new navigation_1.Navigation(fileInfoNav.dir, new Array(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName'])));
                 dirFlag = fileInfoNav.dir;
                 console.log('if-count: ' + ifCount++);
                 console.log(_this.navigation);
             }
             else {
-                _this.navigation.items.push(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir));
+                _this.navigation.items.push(new navigation_item_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']));
                 console.log('else-count: ' + elseCount++);
                 console.log(_this.navigation);
             }
+            _this.menu.push(_this.navigation);
+            console.log('####################################################');
+            console.log('> ', _this.menu);
+            console.log('####################################################');
         });
-        this.menu.push(this.navigation);
-        console.log('####################################################');
-        console.log('> ', this.menu);
-        console.log('####################################################');
+    };
+    Main.prototype.readFileContents = function (path, fileName, encoding) {
+        if (encoding === void 0) { encoding = 'utf-8'; }
+        return fs.readFileSync(path + "/" + fileName, encoding);
     };
     Main.prototype.generateAllFiles = function () {
         var _this = this;
@@ -83,7 +90,7 @@ var Main = (function () {
             var fileInfo = path.parse(file);
             var fileCopyPath = path.join(_this.distPath, fileInfo.dir);
             fs.mkdirpSync(fileCopyPath);
-            var pageFile = fs.readFileSync(_this.srcPath + "/" + _this.srcPathSites + "/" + file, 'utf-8');
+            var pageFile = _this.readFileContents(_this.srcPath + "/" + _this.srcPathSites, file);
             var pageData = frontMatter(pageFile);
             var actualDate = moment().format('LLL');
             var templateConfig = Object.assign({}, {

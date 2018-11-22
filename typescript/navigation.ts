@@ -16,4 +16,5 @@ export class Navigation {
   public setItem(item: NavigationItem) {
     this.items.push(item);
   }
+  
 }
