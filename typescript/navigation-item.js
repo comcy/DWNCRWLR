@@ -2,9 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var NavigationItem = (function () {
     function NavigationItem(name, link, displayName) {
+        if (displayName === void 0) { displayName = 'no name'; }
         this.name = name;
         this.link = link;
-        this.displayName = displayName === '' ? 'no name' : displayName;
+        if (displayName === 'no name')
+            this.displayName = name;
+        else
+            this.displayName = displayName;
     }
     NavigationItem.prototype.setName = function (name) {
         this.name = name;
@@ -13,7 +17,7 @@ var NavigationItem = (function () {
         this.link = link;
     };
     NavigationItem.prototype.setDisplayName = function (displayName) {
-        this.displayName = displayName === '' ? 'no name' : displayName;
+        this.displayName = displayName;
     };
     return NavigationItem;
 }());

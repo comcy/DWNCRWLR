@@ -4,11 +4,11 @@ export class NavigationItem {
   link: string;
   displayName: string;
 
-  constructor(name: string, link: string, displayName: string) {
+  constructor(name: string, link: string, displayName: string = 'no name') {
     this.name = name;
     this.link = link;
-    // if (displayName === '') displayName = 'no name'
-    this.displayName = displayName === '' ? 'no name' : displayName;
+    if (displayName === 'no name') this.displayName = name;
+    else this.displayName = displayName;
   }
 
   public setName(name: string) {
@@ -20,7 +20,7 @@ export class NavigationItem {
   }
 
   public setDisplayName(displayName: string) {
-    this.displayName = displayName === '' ? 'no name' : displayName;
+    this.displayName = displayName;
   }
 
 }
