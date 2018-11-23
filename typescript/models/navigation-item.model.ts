@@ -8,7 +8,6 @@ export class NavigationItem {
     this.link = link;
     if (displayName === 'no name') this.displayName = name;
     else this.displayName = displayName;
-    console.log('NavigationItem created');
   }
 
   public setName(name: string) {

@@ -28,7 +28,7 @@ export class Main {
 
   // private navigationItem: NavigationItem;
   private navigation: ArrayListMultimap<string, NavigationItem>;
-  private menu = []; //: NavigationItem[] = [];
+  private menu = [];
 
   constructor() { }
 
@@ -74,7 +74,6 @@ export class Main {
 
   private createNavigation() {
     this.navigation = new ArrayListMultimap<string, NavigationItem>();
-    let dirFlag = '';
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
       const fileContent = readFileContents(
@@ -82,20 +81,26 @@ export class Main {
         file
       );
       const fileMetadata = frontMatter(fileContent);
-
-      this.navigation.put(
-        fileInfoNav.dir,
-        new NavigationItem(
-          fileInfoNav.name,
+      if (fileInfoNav.dir !== '') {
+        this.navigation.put(
           fileInfoNav.dir,
-          fileMetadata.attributes['displayName']
-        )
-      );
+          new NavigationItem(
+            fileInfoNav.name,
+            fileInfoNav.dir,
+            fileMetadata.attributes['displayName']
+          )
+        );
+      }
     });
 
+    // DEBUG OUTPUT FOR FILE HIERACHY
     console.log('####################################################');
-    console.log('>>>: ', this.navigation.keys());
-    console.log('GET KEY', this.navigation.get('html'));
+    this.navigation.keys().forEach(key => {
+      console.log('Key: ', key);
+      this.navigation.get(key).forEach(val => {
+        console.log('Value: ', val);
+      })
+    });
     console.log('####################################################');
   }
 
@@ -116,7 +121,7 @@ export class Main {
         {},
         {
           lastupdate: actualDate,
-          navData: this.menu
+          navigation: this.navigation
         },
         config,
         {

@@ -12,11 +12,12 @@
         <li>
           <a href="<%= site.baseHref %>" class="btn"> <%= site.homelabel %> </a>
         </li>
-        <% navData.forEach( ( navigation ) => { %>
+        <% navigation.keys().forEach( ( key ) => { %>
         <li>
-          <% navigations.items.forEach( ( navItem ) => { %>
-          <a href="/<%= navItem.link %>/<%= navItem.name %>">
-            <%= navItem.displayName %>
+          <%= key %>
+          <% navigation.get(key).forEach( ( item ) => { %>
+          <a href="/<%= item.link %>/<%= item.name %>">
+            <%= item.displayName %>
           </a>
           <% }) %>
         </li>
