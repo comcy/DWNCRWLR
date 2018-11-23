@@ -1,2 +1,3 @@
-export {INavigationCollection} from './navigation.interface';
-export {NavigationItem} from './navigation-item.model';
+export { MultimapEntry } from './multimap-entry.model';
+export { MultiMap } from './multimap.interface';
+export { NavigationItem } from './navigation-item.model';
