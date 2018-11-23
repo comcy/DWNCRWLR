@@ -9,8 +9,9 @@ import { NavigationItem } from './models';
 import {
   consoleStyle,
   readFileContents,
-  NavigationCollection
+  // NavigationCollection
 } from './helpers';
+import { ArrayListMultimap } from './helpers/arraylist-multimap';
 
 const config = require('../dwncrwlr.config.json');
 
@@ -27,8 +28,8 @@ export class Main {
   private files;
 
   // private navigationItem: NavigationItem;
-  private navigation: NavigationCollection<NavigationItem>;
-  // private menu: Navigation[] = [];
+  private navigation: ArrayListMultimap<string, NavigationItem>;
+  private menu = []; //: NavigationItem[] = [];
 
   constructor() {}
 
@@ -73,8 +74,8 @@ export class Main {
   }
 
   private createNavigation() {
+    this.navigation = new ArrayListMultimap<string, NavigationItem>();
     let dirFlag = '';
-
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
       const fileContent = readFileContents(
@@ -85,9 +86,8 @@ export class Main {
 
       if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
         dirFlag = fileInfoNav.dir;
-        this.navigation = new NavigationCollection<NavigationItem>();
 
-        this.navigation.Add(
+        this.navigation.put(
           dirFlag,
           new NavigationItem(
             fileInfoNav.name,
@@ -107,6 +107,14 @@ export class Main {
         // );
         dirFlag = fileInfoNav.dir;
       } else {
+        this.navigation.put(
+          dirFlag,
+          new NavigationItem(
+            fileInfoNav.name,
+            fileInfoNav.dir,
+            fileMetadata.attributes['displayName']
+          )
+        );
         // this.navigation.setItem(
         //   new NavigationItem(
         //     fileInfoNav.name,
@@ -122,22 +130,17 @@ export class Main {
         //   )
         // );
       }
-      // this.menu.push(this.navigation);
+      // let allNavItems = this.navigation.Values();
+      // this.menu.push(allNavItems);
+
+      console.log('GET', this.navigation.containsKey('html'));
     });
 
-    // console.log('####################################################');
-    // // console.log('> ', this.menu);
-
-    // // TODO: remove later on
-    // // Navigation structure:
-    // this.menu.forEach(navigation => {
-    //   console.log('_: ', this.menu);
-    //   navigation.items.forEach(element => {
-    //     element.name + element.link;
-    //     // console.log('childs >>>: ', element.name + ' - ' + element.link);
-    //   });
-    // });
-    // console.log('####################################################');
+    console.log('####################################################');
+    // console.log('###: ', this.navigation.Values());
+    console.log('>>>: ', this.navigation.keys());
+    console.log('GET KEY', this.navigation.get('zimt-utilities'));
+    console.log('####################################################');
   }
 
   private generateAllFiles() {
@@ -164,7 +167,7 @@ export class Main {
         {},
         {
           lastupdate: actualDate,
-          navData: this.navigation
+          navData: this.menu
         },
         config,
         {

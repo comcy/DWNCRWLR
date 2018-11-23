@@ -9,6 +9,7 @@ var frontMatter = require("front-matter");
 var moment = require("moment");
 var models_1 = require("./models");
 var helpers_1 = require("./helpers");
+var arraylist_multimap_1 = require("./helpers/arraylist-multimap");
 var config = require('../dwncrwlr.config.json');
 var Main = (function () {
     function Main() {
@@ -17,6 +18,7 @@ var Main = (function () {
         this.srcPathLayouts = config.build.srcPathLayouts;
         this.distPath = config.build.distPath;
         this.supportedExtensions = config.build.supportedContentExtensionsPattern;
+        this.menu = [];
     }
     Main.prototype.init = function () {
         console.log(helpers_1.consoleStyle.textFgRed, helpers_1.consoleStyle.asciiLogo);
@@ -52,6 +54,7 @@ var Main = (function () {
     };
     Main.prototype.createNavigation = function () {
         var _this = this;
+        this.navigation = new arraylist_multimap_1.ArrayListMultimap();
         var dirFlag = '';
         this.files.forEach(function (file) {
             var fileInfoNav = path.parse(file);
@@ -59,13 +62,18 @@ var Main = (function () {
             var fileMetadata = frontMatter(fileContent);
             if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
                 dirFlag = fileInfoNav.dir;
-                _this.navigation = new helpers_1.NavigationCollection();
-                _this.navigation.Add(dirFlag, new models_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']));
+                _this.navigation.put(dirFlag, new models_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']));
                 dirFlag = fileInfoNav.dir;
             }
             else {
+                _this.navigation.put(dirFlag, new models_1.NavigationItem(fileInfoNav.name, fileInfoNav.dir, fileMetadata.attributes['displayName']));
             }
+            console.log('GET', _this.navigation.containsKey('html'));
         });
+        console.log('####################################################');
+        console.log('>>>: ', this.navigation.keys());
+        console.log('GET KEY', this.navigation.get('zimt-utilities'));
+        console.log('####################################################');
     };
     Main.prototype.generateAllFiles = function () {
         var _this = this;
@@ -78,7 +86,7 @@ var Main = (function () {
             var actualDate = moment().format('LLL');
             var templateConfig = Object.assign({}, {
                 lastupdate: actualDate,
-                navData: _this.navigation
+                navData: _this.menu
             }, config, {
                 page: pageData.attributes
             });
