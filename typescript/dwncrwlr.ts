@@ -9,9 +9,8 @@ import { NavigationItem } from './models';
 import {
   consoleStyle,
   readFileContents,
-  // NavigationCollection
+  ArrayListMultimap
 } from './helpers';
-import { ArrayListMultimap } from './helpers/arraylist-multimap';
 
 const config = require('../dwncrwlr.config.json');
 
@@ -31,7 +30,7 @@ export class Main {
   private navigation: ArrayListMultimap<string, NavigationItem>;
   private menu = []; //: NavigationItem[] = [];
 
-  constructor() {}
+  constructor() { }
 
   public init() {
     console.log(consoleStyle.textFgRed, consoleStyle.asciiLogo);
@@ -84,77 +83,27 @@ export class Main {
       );
       const fileMetadata = frontMatter(fileContent);
 
-      if (fileInfoNav.dir !== '' && dirFlag !== fileInfoNav.dir) {
-        dirFlag = fileInfoNav.dir;
-
-        this.navigation.put(
-          dirFlag,
-          new NavigationItem(
-            fileInfoNav.name,
-            fileInfoNav.dir,
-            fileMetadata.attributes['displayName']
-          )
-        );
-        // this.navigation = new Navigation(
-        //   fileInfoNav.dir,
-        //   new Array(
-        //     new NavigationItem(
-        //       fileInfoNav.name,
-        //       fileInfoNav.dir,
-        //       fileMetadata.attributes['displayName']
-        //     )
-        //   )
-        // );
-        dirFlag = fileInfoNav.dir;
-      } else {
-        this.navigation.put(
-          dirFlag,
-          new NavigationItem(
-            fileInfoNav.name,
-            fileInfoNav.dir,
-            fileMetadata.attributes['displayName']
-          )
-        );
-        // this.navigation.setItem(
-        //   new NavigationItem(
-        //     fileInfoNav.name,
-        //     fileInfoNav.dir,
-        //     fileMetadata.attributes['displayName']
-        //   )
-        // );
-        // this.navigation.items.concat(
-        //   new NavigationItem(
-        //     fileInfoNav.name,
-        //     fileInfoNav.dir,
-        //     fileMetadata.attributes['displayName']
-        //   )
-        // );
-      }
-      // let allNavItems = this.navigation.Values();
-      // this.menu.push(allNavItems);
-
-      console.log('GET', this.navigation.containsKey('html'));
+      this.navigation.put(
+        fileInfoNav.dir,
+        new NavigationItem(
+          fileInfoNav.name,
+          fileInfoNav.dir,
+          fileMetadata.attributes['displayName']
+        )
+      );
     });
 
     console.log('####################################################');
-    // console.log('###: ', this.navigation.Values());
     console.log('>>>: ', this.navigation.keys());
-    console.log('GET KEY', this.navigation.get('zimt-utilities'));
+    console.log('GET KEY', this.navigation.get('html'));
     console.log('####################################################');
   }
 
   private generateAllFiles() {
     this.files.forEach(file => {
       const fileInfo = path.parse(file);
-      // console.log(fileInfo);
       const fileCopyPath = path.join(this.distPath, fileInfo.dir);
       fs.mkdirpSync(fileCopyPath);
-
-      // Read content
-      // const pageFile = fs.readFileSync(
-      //   `${this.srcPath}/${this.srcPathSites}/${file}`,
-      //   'utf-8'
-      // );
 
       const pageFile = readFileContents(
         `${this.srcPath}/${this.srcPathSites}`,
@@ -195,7 +144,7 @@ export class Main {
       const layout = pageData.attributes['layout'] || 'default';
       const layoutFileName = `${this.srcPath}/${
         this.srcPathLayouts
-      }/${layout}.ejs`;
+        }/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
       const finalPage = ejs.render(
@@ -214,16 +163,6 @@ export class Main {
       );
     });
   }
-
-  /**
-   *
-   * @param path
-   * @param fileName
-   * @param encoding
-   */
-  // private readFileContents(path: string, fileName: string, encoding: string = 'utf-8'): string {
-  //   return fs.readFileSync(`${path}/${fileName}`, encoding);
-  // }
 }
 
 let main = new Main();
