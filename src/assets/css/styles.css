@@ -3,21 +3,13 @@ body {
 
 .main-content {
   padding-left: 50px;
+  margin-top: 50px;
   min-height: 100%; }
 
 .header {
   position: sticky; }
 
 .footer {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  padding: 1rem;
-  background-color: #efefef;
-  text-align: center;
-  background: #f8f8f8; }
-  .footer p {
-    text-align: center;
-    vertical-align: middle;
-    line-height: 20px; }
+  background-color: #343a40; }
+  .footer text-color {
+    color: #f8f8f8; }

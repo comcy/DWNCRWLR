@@ -1,28 +1,31 @@
-<!-- views/partials/header.ejs -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">
+        <%= site.title %></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+        aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-<nav class="header navbar navbar-default" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">
-        <span class="glyphicon glyphicon glyphicon-cloud-download"></span> <%=
-        site.title %>
-      </a>
-
-      <ul class="nav navbar-nav">
-        <li>
-          <a href="<%= site.baseHref %>" class="btn"> <%= site.homelabel %> </a>
-        </li>
-        <% navigation.keys().forEach( ( key ) => { %>
-        <li>
-          <%= key %>
-          <% navigation.get(key).forEach( ( item ) => { %>
-          <a href="/<%= item.link %>/<%= item.name %>">
-            <%= item.displayName %>
-          </a>
-          <% }) %>
-        </li>
-        <% }) %>
-      </ul>
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="<%= site.baseHref %>">
+                    <%= site.homelabel %> <span class="sr-only">(current)</span></a>
+            </li>
+            <% navigation.keys().forEach( ( key ) => { %>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="dropdown01" href="/" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <%= key %></a>
+                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                    <% navigation.get(key).forEach( ( item ) => { %>
+                    <a class="dropdown-item" href="/<%= item.link %>/<%= item.name %>">
+                        <%= item.displayName %>
+                    </a>
+                    <% }) %>
+                </div>
+            </li>
+            <% }) %>
+        </ul>
     </div>
-  </div>
 </nav>
