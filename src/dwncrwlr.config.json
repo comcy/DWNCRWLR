@@ -1,0 +1,20 @@
+{
+    "site": {
+        "title": "DwnCrwlr",
+        "description": "Describes the site",
+        "favicon": "fav.ico",
+        "author": "comcy",
+        "year": "2018",
+        "logo": "",
+        "baseHref": "/",
+        "homelabel": "Home"
+    },
+    "build": {
+        "srcPath": ".",
+        "srcPathSites": "/sites",
+        "srcPathLayouts": "/views/layouts",
+        "srcAssets": "/assets",
+        "distPath": "./publish",
+        "supportedContentExtensionsPattern": "md|ejs|html"
+    }
+}
