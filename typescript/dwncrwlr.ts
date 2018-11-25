@@ -97,6 +97,7 @@ export class Main {
     console.log('####################################################');
     this.navigation.keys().forEach(key => {
       console.log('Key: ', key);
+      console.log('Count: ' + this.navigation.valueCount(key))
       this.navigation.get(key).forEach(val => {
         console.log('Value: ', val);
       })

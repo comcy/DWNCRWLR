@@ -12,19 +12,31 @@
                 <a class="nav-link" href="<%= site.baseHref %>">
                     <%= site.homelabel %> <span class="sr-only">(current)</span></a>
             </li>
+
             <% navigation.keys().forEach( ( key ) => { %>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="dropdown01" href="/" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                    <%= key %></a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                <% if ( navigation.valueCount(key) === 1){ %>
                     <% navigation.get(key).forEach( ( item ) => { %>
-                    <a class="dropdown-item" href="/<%= item.link %>/<%= item.name %>">
-                        <%= item.displayName %>
-                    </a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/<%= item.link %>/<%= item.name %>">
+                                <%= item.link %> <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
                     <% }) %>
-                </div>
-            </li>
+                <% } else{ %>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="dropdown01" href="/" data-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <%= key %>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown01">
+                            <% navigation.get(key).forEach( ( item ) => { %>
+                            <a class="dropdown-item" href="/<%= item.link %>/<%= item.name %>">
+                                <%= item.displayName %>
+                            </a>
+                            <% }) %>
+                        </div>
+                    </li>
+                <% }%>
             <% }) %>
         </ul>
     </div>

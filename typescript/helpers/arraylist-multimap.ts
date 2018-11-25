@@ -10,20 +10,26 @@ export class ArrayListMultimap<K, V> implements MultiMap<K, V> {
 
   public containsKey(key: K): boolean {
     return this._entries
-      .filter(entry => entry.key == key)
+      .filter(entry => entry.key === key)
       .length > 0
   }
 
   public containsValue(value: V): boolean {
     return this._entries
-      .filter(entry => entry.value == value)
+      .filter(entry => entry.value === value)
       .length > 0
   }
 
   public containsEntry(key: K, value: V): boolean {
     return this._entries
-      .filter(entry => entry.key == key && entry.value == value)
+      .filter(entry => entry.key === key && entry.value === value)
       .length > 0
+  }
+
+  public valueCount(key: K): number {
+    return this._entries
+      .filter(entry => entry.key === key)
+      .length
   }
 
   public delete(key: K, value?: V): boolean {
@@ -31,10 +37,10 @@ export class ArrayListMultimap<K, V> implements MultiMap<K, V> {
     this._entries = this._entries
       .filter(entry => {
         if (value)
-          return entry.key != key || entry.value != value
-        return entry.key != key
+          return entry.key !== key || entry.value !== value
+        return entry.key !== key
       })
-    return temp.length != this._entries.length
+    return temp.length !== this._entries.length
   }
 
   public get entries(): MultimapEntry<K, V>[] {
@@ -43,7 +49,7 @@ export class ArrayListMultimap<K, V> implements MultiMap<K, V> {
 
   public get(key: K): V[] {
     return this._entries
-      .filter(entry => entry.key == key)
+      .filter(entry => entry.key === key)
       .map(entry => entry.value)
   }
 
