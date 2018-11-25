@@ -17,6 +17,7 @@ This repository also provides a `npm` package to integrate the generator to any 
         - [Clone](#clone)
         - [Setup](#setup)
         - [Usage](#usage)
+        - [Customization](#customization)
     - [Documentation](#documentation)
     - [Tests](#tests)
     - [FAQ / Troubleshooting](#faq--troubleshooting)
@@ -53,18 +54,29 @@ If you just want to use the project structure provided within this repsoitory yo
 
     }
     ```
-    -  
-
+    -  for any detailed information read [Section: Setup](#setup)
 
 TODO: write about cloning repo, edit config and use structure to generate a site.
-
 
 ### Setup
 TODO: Write install and edit config.
 
+`views`
+
+`sites`
+
+`assets`
+
 
 ### Usage
 TODO: Describe assets
+
+
+### Customization
+
+View: `partials`
+
+View: `layouts`
 
 
 ## Documentation
