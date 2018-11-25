@@ -31,6 +31,7 @@ Desktop.ini
 
 # Build files
 dist/*
+publish/*
 
 # Playground tmp files
 .playground
