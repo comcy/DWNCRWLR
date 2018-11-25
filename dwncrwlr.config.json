@@ -13,6 +13,7 @@
         "srcPath": "./src",
         "srcPathSites": "sites",
         "srcPathLayouts": "/views/layouts",
+        "srcAssets": "assets",
         "distPath": "./dist",
         "supportedContentExtensionsPattern": "md|ejs|html"
     }
