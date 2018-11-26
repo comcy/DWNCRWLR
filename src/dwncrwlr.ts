@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as ejs from 'ejs';
@@ -12,35 +14,55 @@ import {
   ArrayListMultimap
 } from './helpers';
 
-const config = require('./dwncrwlr.config.json');
+// const config = require('../dwncrwlr.config.json');
 
 export class Main {
-  // Variabel declaration defined in dwncrwlr.config.json
-  private srcPath = config.build.srcPath;
-  private srcPathSites = config.build.srcPathSites;
-  private srcPathLayouts = config.build.srcPathLayouts;
-  private srcAssets = config.build.srcAssets;
-  private distPath = config.build.distPath;
 
-  private supportedExtensions = config.build.supportedContentExtensionsPattern;
+  // Variabel declaration defined in dwncrwlr.config.json
+  private config;
+  private srcPath;
+  private srcPathSites;
+  private srcPathLayouts;
+  private srcAssets;
+  private distPath;
+  private supportedExtensions;
 
   // Build declarations
   private files;
 
   // private navigationItem: NavigationItem;
   private navigation: ArrayListMultimap<string, NavigationItem>;
-  private menu = [];
 
-  constructor() { }
+  constructor() {}
 
   public init() {
+    
+    // Setup
+    this.config = require('../dwncrwlr.config.json');
+
+    if (this.checkConfig(this.config)) { // Check if config file exist
+      // this.srcPath = this.config.build.srcPath;
+      this.srcPathSites = this.config.build.srcPathSites;
+      this.srcPathLayouts = this.config.build.srcPathLayouts;
+      if (this.config.build.srcPathLayouts === '' || this.config.build.srcPathLayouts === null || this.config.build.srcPathLayouts === undefined) { // Check if custom layouts are provided
+        this.srcPathLayouts = this.config.build.srcPathLayouts;
+      } else {
+        this.srcPathLayouts = './views/layouts'
+      }
+      this.srcAssets = this.config.build.srcAssets;
+      this.distPath = this.config.build.distPath;
+      this.supportedExtensions = this.config.build.supportedContentExtensionsPattern;
+    } else {
+      console.log(consoleStyle.textFgRed, 'NO CONFIGURATION WAS FOUND!!!');
+    }    
+    
     console.log(consoleStyle.textFgRed, consoleStyle.asciiLogo);
     console.log('\n', consoleStyle.textFgMagenta);
     console.log('//-----------------------------------------------------');
     console.log('\t Starting static site generation');
     console.log('//-----------------------------------------------------');
     console.log('\n', consoleStyle.styleReset);
-
+    
     this.cleanUpDist();
     this.copyAssets();
     this.loadAllFiles();
@@ -53,12 +75,17 @@ export class Main {
     console.log('//-----------------------------------------------------');
   }
 
+  private checkConfig(config: any): boolean {
+    if (config === null || config === undefined || config === '') return false;
+    else return true;
+  }
+
   private cleanUpDist() {
     fs.emptyDirSync(`${this.distPath}`);
   }
 
   private copyAssets() {
-    fs.copy(`${this.srcPath}/${this.srcAssets}`, `${this.distPath}/${this.srcAssets}`);
+    fs.copy(`${this.srcAssets}`, `${this.distPath}/${this.srcAssets}`);
   }
 
   private loadAllFiles() {
@@ -66,7 +93,7 @@ export class Main {
     console.log(consoleStyle.textFgGreen, `${this.supportedExtensions}`);
 
     this.files = glob.sync(`**/*.@(${this.supportedExtensions})`, {
-      cwd: `${this.srcPath}/${this.srcPathSites}`
+      cwd: `${this.srcPathSites}`
     });
 
     console.log('\n', consoleStyle.styleReset);
@@ -78,7 +105,7 @@ export class Main {
     this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
       const fileContent = readFileContents(
-        `${this.srcPath}/${this.srcPathSites}`,
+        `${this.srcPathSites}`,
         file
       );
       const fileMetadata = frontMatter(fileContent);
@@ -113,7 +140,7 @@ export class Main {
       fs.mkdirpSync(fileCopyPath);
 
       const pageFile = readFileContents(
-        `${this.srcPath}/${this.srcPathSites}`,
+        `${this.srcPathSites}`,
         file
       );
 
@@ -125,7 +152,7 @@ export class Main {
           lastupdate: actualDate,
           navigation: this.navigation
         },
-        config,
+        this.config,
         {
           page: pageData.attributes
         }
@@ -140,7 +167,7 @@ export class Main {
           break;
         case '.ejs':
           pageContent = ejs.render(pageData.body, templateConfig, {
-            filename: `${this.srcPath}${this.srcPathSites}/${file}`
+            filename: `${this.srcPathSites}/${file}`
           });
           break;
         default:
@@ -149,9 +176,8 @@ export class Main {
 
       // Assign layouts
       const layout = pageData.attributes['layout'] || 'default';
-      const layoutFileName = `${this.srcPath}/${
-        this.srcPathLayouts
-        }/${layout}.ejs`;
+      const layoutFileName = `${this.srcPathLayouts}/${layout}.ejs`;
+
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
       const finalPage = ejs.render(

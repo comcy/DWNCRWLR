@@ -20,7 +20,7 @@ var paths = {
   srcTS: 'src/**/*.ts',
 
   dist: 'dist',
-  distViews: 'dist/views',
+  distViews: 'dist',
   distStyles: 'dist/styles/css/*.css',
   distJS: 'dist/**/*.js',
   distAssets: 'dist/assets',
@@ -73,42 +73,21 @@ gulp.task('sass:dist', function() {
     .pipe(gulp.dest('./css'));
 });
 
-gulp.task('ts:dist', function() {
-  gulp
-    .src('src/**/*.ts')
-    .pipe(
-      ts({
-        noImplicitAny: true,
-        out: 'dwncrwlr.js'
-      })
-    )
-    .pipe(gulp.dest('./tmp/ts'));
-});
-
-gulp.task('uglify:dist', function() {
-  gulp
-    .src(['./tmp/ts/dwncrwlr.js'])
-    .pipe(sourcemaps.init())
+// JS files
+gulp.task('js:dist', function() {
+  return gulp
+    .src(paths.srcJS)
+    .pipe(concat('dwncrwlr.min.js'))
     .pipe(uglify())
-    .pipe(sourcemaps.write('/'))
-    .pipe(gulp.dest('./dist/'));
+    .pipe(gulp.dest(paths.dist));
 });
 
-// // JS files
-// gulp.task('js:dist', function() {
-//   return gulp
-//     .src(paths.srcJS)
-//     .pipe(concat('dwncrwlr.min.js'))
-//     .pipe(uglify())
-//     .pipe(gulp.dest(paths.dist));
-// });
-
-// // TS files
-// gulp.task("typescript:dist", function () {
-//     return tsProject.src()
-//         .pipe(tsProject())
-// .js.pipe(gulp.dest(paths.dist));
-// });
+// TS files
+gulp.task("typescript:dist", function () {
+    return tsProject.src()
+        .pipe(tsProject())
+.js.pipe(gulp.dest(paths.dist));
+});
 
 // Additional project files
 gulp.task('additional:dist', function() {
@@ -119,10 +98,8 @@ gulp.task('additional:dist', function() {
 gulp.task('copy:dist', [
   'views:dist',
   'styles:dist',
-  'ts:dist',
-  'uglify:dist',
   // 'js:dist',
-  // 'typescript:dist',
+  'typescript:dist',
   'additional:dist'
 ]);
 

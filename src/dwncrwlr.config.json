@@ -11,8 +11,8 @@
     },
     "build": {
         "srcPath": "./src",
-        "srcPathSites": "/sites",
-        "srcPathLayouts": "",
+        "srcPathSites": "./src/sites",
+        "srcPathLayouts": "./views/layouts",
         "srcStyles": "", 
         "srcAssets": "./assets",
         "distPath": "./publish",

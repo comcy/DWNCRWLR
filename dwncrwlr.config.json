@@ -10,11 +10,10 @@
         "homelabel": "Home"
     },
     "build": {
-        "srcPath": "./src",
-        "srcPathSites": "/examples",
-        "srcPathLayouts": "",
-        "srcStyles": "",
-        "srcAssets": "./assets",
+        "srcPath": "./examples",
+        "srcPathSites": "./examples/sites",
+        "srcPathLayouts": "./views/layouts",
+        "srcAssets": "/sites/assets",
         "distPath": "./publish",
         "supportedContentExtensionsPattern": "md|ejs|html"
     }

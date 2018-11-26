@@ -3,6 +3,9 @@
     "version": "0.1.0",
     "description": "Markdown to HTML static site generator using EJS templates and front-matter.",
     "main": "dwncrwlr.js",
+    "bin": {
+        "crwldwn": "./dwncrwlr.js"
+    },
     "scripts": {
         "build": "npm run tsc && npm run styles && gulp",
         "build:dev": "npm run tsc && npm run styles && npm run generate:ts",
@@ -28,6 +31,7 @@
         "gulp": "^3.9.1",
         "gulp-clean-css": "^4.0.0",
         "gulp-concat": "^2.6.1",
+        "gulp-sourcemaps": "^2.6.4",
         "gulp-tslint": "^8.1.3",
         "gulp-typescript": "^5.0.0-alpha.3",
         "gulp-uglify": "^3.0.1",
