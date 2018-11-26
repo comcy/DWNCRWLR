@@ -11,7 +11,7 @@ var del = require('del');
 
 var paths = {
   dist: 'dist',
-  files: ['./package.json', './README.md', './LICENSE'],
+  files: ['package.json', 'README.md', 'LICENSE'],
   tslint: 'tsconfig.json'
 };
 
@@ -57,13 +57,14 @@ gulp.task('typescript:dist', function () {
 
 // Additional project files
 gulp.task('additional:dist', function () {
-  return gulp.src(paths.files).pipe(gulp.dest(paths.dist));
+  return gulp.src(paths.files)
+    .pipe(gulp.dest(paths.dist));
 });
 
 // Copy tasks bundle
 gulp.task('copy:dist', [
-  'typescript:dist',
-  'additional:dist'
+  'additional:dist',
+  'typescript:dist'
 ]);
 
 // Build app to `dist`: Starting point
