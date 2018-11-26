@@ -11,9 +11,10 @@
     },
     "build": {
         "srcPath": "./src",
-        "srcPathSites": "sites",
-        "srcPathLayouts": "/views/layouts",
-        "srcAssets": "assets",
+        "srcPathSites": "/examples",
+        "srcPathLayouts": "",
+        "srcStyles": "",
+        "srcAssets": "./assets",
         "distPath": "./publish",
         "supportedContentExtensionsPattern": "md|ejs|html"
     }

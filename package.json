@@ -2,10 +2,7 @@
     "name": "dwncrwlr",
     "version": "0.1.0",
     "description": "Markdown to HTML static site generator using EJS templates and front-matter.",
-    "main": "dwncrwlr.min.js",
-    "bin": {
-        "dwncrwlr": "dwncrwlr.min.js"
-    },
+    "main": "dwncrwlr.js",
     "scripts": {
         "build": "npm run tsc && npm run styles && gulp",
         "build:dev": "npm run tsc && npm run styles && npm run generate:ts",
