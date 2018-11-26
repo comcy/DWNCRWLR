@@ -4,17 +4,17 @@
     "description": "Markdown to HTML static site generator using EJS templates and front-matter.",
     "main": "index.js",
     "bin": {
-        "dwncrwlr": "./scripts/dwncrwlr.js"
+        "crwldwn": "./dwncrwlr.js"
     },
     "scripts": {
-        "build": "npm run styles && npm run generate:ts",
+        "build": "npm run tsc && npm run styles && gulp",
         "build:dev": "npm run tsc && npm run styles && npm run generate:ts",
-        "styles": "node-sass ./src/styles/scss/index.scss ./src/assets/css/styles.css",
-        "generate:ts": "node ./typescript/dwncrwlr.js",
+        "styles": "node-sass ./websrc/styles/scss/index.scss ./websrc/assets/css/styles.css",
+        "generate:ts": "node ./src/dwncrwlr.js",
         "watch": "watch 'npm run build' ./src",
         "tsc": "tsc",
         "tsc:watch": "tsc -w",
-        "serve": "serve ./dist"
+        "serve": "serve ./publish"
     },
     "keywords": [],
     "author": "Christian Silfang",
