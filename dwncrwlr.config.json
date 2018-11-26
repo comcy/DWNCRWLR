@@ -10,7 +10,7 @@
         "homelabel": "Home"
     },
     "build": {
-        "srcPath": "./websrc",
+        "srcPath": "./websrc_sample",
         "srcPathSites": "sites",
         "srcPathLayouts": "/views/layouts",
         "srcAssets": "assets",
