@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var tslint = require('gulp-tslint');
 var ts = require('gulp-typescript');
 var tsProject = ts.createProject('tsconfig.json');
+var sourcemaps = require('gulp-sourcemaps');
 var del = require('del');
 
 //-----------------------------------------------------
@@ -37,11 +38,22 @@ gulp.task('clean', function () {
 // Copy tasks
 
 // TS files
-gulp.task("typescript:dist", function () {
+// gulp.task("typescript:dist", function () {
+//   var tsResult = tsProject.src()
+//     .pipe(tsProject());
+
+//   return tsResult.js.pipe(gulp.dest(paths.dist));
+// });
+
+
+gulp.task('typescript:dist', function () {
   return tsProject.src()
+    .pipe(sourcemaps.init())
     .pipe(tsProject())
-    .js.pipe(gulp.dest(paths.dist));
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest(paths.dist));
 });
+
 
 // Additional project files
 gulp.task('additional:dist', function () {

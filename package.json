@@ -7,9 +7,9 @@
         "crwldwn": "./dwncrwlr.js"
     },
     "scripts": {
-        "build": "npm run tsc && npm run styles && gulp",
+        "build": "npm run styles && gulp",
         "build:dev": "npm run tsc && npm run styles && npm run generate:ts",
-        "styles": "node-sass ./websrc/styles/scss/index.scss ./websrc/assets/css/styles.css",
+        "styles": "node-sass ./websrc_sample/styles/scss/index.scss ./websrc_sample/assets/css/styles.css",
         "generate:ts": "node ./src/dwncrwlr.js",
         "watch": "watch 'npm run build' ./src",
         "tsc": "tsc",
@@ -25,10 +25,14 @@
         "cross-env": "^5.2.0",
         "del": "^3.0.0",
         "gulp": "^3.9.1",
+        "gulp-sourcemaps": "^2.6.4",
         "gulp-tslint": "^8.1.3",
         "gulp-typescript": "^5.0.0-alpha.3",
         "node-sass": "^4.10.0",
         "serve": "^10.0.2",
+        "standard-version": "^4.4.0",
+        "tslint": "^5.11.0",
+        "typescript": "^3.1.6",
         "watch": "^1.0.2"
     },
     "dependencies": {
