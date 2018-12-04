@@ -8,6 +8,11 @@ src/**/*.js
 **.d.ts
 **.ngsummary.json
 
+## Jasmine tests
+
+test/**/*.js
+test/**/*.d.ts
+
 # JetBrains
 .idea
 .project
@@ -35,3 +40,6 @@ publish/*
 
 # Playground tmp files
 .playground
+
+# Yo
+.yo-rc.json
