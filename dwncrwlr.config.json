@@ -1,6 +1,6 @@
 {
     "site": {
-        "title": "DwnCrwlr",
+        "title": "COMCY",
         "description": "Describes the site",
         "favicon": "fav.ico",
         "author": "comcy",
@@ -10,7 +10,7 @@
         "homelabel": "Home"
     },
     "build": {
-        "srcPath": "./websrc_sample",
+        "srcPath": "./profile",
         "srcPathSites": "sites",
         "srcPathLayouts": "/views/layouts",
         "srcAssets": "assets",

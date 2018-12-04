@@ -10,7 +10,7 @@
     "build": "gulp && npm run clean-package",
     "clean-package": "node ./buildtools/cleanup-package.js",
     "build:dev": "npm run tsc && npm run styles && npm run generate:ts",
-    "styles": "node-sass ./websrc_sample/styles/scss/index.scss ./websrc_sample/assets/css/styles.css",
+    "styles": "node-sass ./profile/styles/scss/index.scss ./profile/assets/css/styles.css",
     "generate:ts": "node ./src/dwncrwlr.js",
     "watch": "watch 'npm run build' ./src",
     "tsc": "tsc",
