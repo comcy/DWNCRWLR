@@ -1,5 +1,5 @@
 import 'jasmine';
-import { ArrayListMultimap } from "../../../src/helpers/arraylist-multimap";
+import { ArrayListMultimap } from "../src/helpers/arraylist-multimap";
 
 const arrayList = new ArrayListMultimap<string, string>();
 

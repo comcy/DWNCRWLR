@@ -34,7 +34,8 @@
         "dist",
         "build",
         "scripts",
-        "test"
+        "test",
+        "spec"
     ],
     "filesGlob": [
         "./src/**/*.ts",
