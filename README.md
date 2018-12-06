@@ -22,6 +22,8 @@ This repository also provides a `npm` package to integrate the generator to any 
     - [Tests](#tests)
     - [FAQ / Troubleshooting](#faq--troubleshooting)
     - [License](#license)
+    - [Further readings](#further-readings)
+        - [Tests](#tests-1)
 
 ---
 
@@ -96,4 +98,15 @@ View: `layouts`
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
 - **[MIT license](http://opensource.org/licenses/mit-license.php)**
-- Copyright 2015 © <a href="http://fvcproductions.com" target="_blank">comcy</a>.
+- Copyright 2018 © <a href="http://comcy.github.io" target="_blank">comcy</a>.
+
+
+## Further readings
+
+### Tests
+
+https://stackoverflow.com/questions/30863565/unit-testing-using-jasmine-and-typescript
+
+https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort?rq=1
+
+http://bisaga.com/blog/programming/testing-typescript-node-app-with-jasmine/

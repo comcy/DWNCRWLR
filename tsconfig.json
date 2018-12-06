@@ -33,7 +33,8 @@
         "node_modules",
         "dist",
         "build",
-        "scripts"
+        "scripts",
+        "spec"
     ],
     "filesGlob": [
         "./src/**/*.ts",
