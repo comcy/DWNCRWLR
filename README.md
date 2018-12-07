@@ -110,3 +110,5 @@ https://stackoverflow.com/questions/30863565/unit-testing-using-jasmine-and-type
 https://stackoverflow.com/questions/67299/is-unit-testing-worth-the-effort?rq=1
 
 http://bisaga.com/blog/programming/testing-typescript-node-app-with-jasmine/
+
+https://www.npmjs.com/package/jasmine-trx-reporter
