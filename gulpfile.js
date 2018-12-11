@@ -11,7 +11,7 @@ var del = require('del');
 
 var paths = {
   dist: 'dist',
-  files: ['package.json', 'README.md', 'LICENSE'],
+  files: ['package.json', 'assets/*', 'README.md', 'LICENSE'],
   tslint: 'tsconfig.json'
 };
 

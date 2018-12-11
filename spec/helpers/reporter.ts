@@ -11,3 +11,10 @@ jasmine.getEnv().clearReporters();
 jasmine.getEnv().addReporter(new SpecReporter({
     customProcessors: [CustomProcessor],
 }));
+
+var reporters = require('jasmine-reporters');
+var junitReporter = new reporters.JUnitXmlReporter({
+    savePath: 'spec/reports',
+    consolidateAll: false
+});
+jasmine.getEnv().addReporter(junitReporter)

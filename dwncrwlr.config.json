@@ -12,9 +12,9 @@
     "build": {
         "srcPath": "./profile",
         "srcPathSites": "sites",
-        "srcPathLayouts": "/views/layouts",
-        "srcAssets": "assets",
         "distPath": "./publish",
-        "supportedContentExtensionsPattern": "md|ejs|html"
+        "supportedContentExtensionsPattern": "md|ejs|html",
+        "customPathLayouts": "/views/layouts",
+        "customAssets": ""
     }
 }

@@ -4,9 +4,14 @@ npm-debug.log
 
 # TypeScript
 src/**/*.js
+src/**/*.d.ts
+src/**/*.map
+src/**/*.ngsummary.json
+
 **.map
 **.d.ts
 **.ngsummary.json
+
 
 # JetBrains
 .idea

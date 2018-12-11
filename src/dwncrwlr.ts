@@ -11,18 +11,22 @@ import { NavigationItem } from './models';
 import {
   consoleStyle,
   readFileContents,
-  ArrayListMultimap
+  ArrayListMultimap,
+  getAssetsPath,
+  isEmptyNullUndefined
 } from './helpers';
 
 const config = require('../dwncrwlr.config.json');
+
+const ASSETS_PATH = './assets';
 
 export class Main {
   // Variabel declaration defined in dwncrwlr.config.json
   private srcPath = config.build.srcPath;
   private srcPathSites = config.build.srcPathSites;
-  private srcPathLayouts = config.build.srcPathLayouts;
-  private srcAssets = config.build.srcAssets;
   private distPath = config.build.distPath;
+  private customPathLayouts = config.build.customPathLayouts;
+  private customAssets = config.build.customAssets;
 
   private supportedExtensions = config.build.supportedContentExtensionsPattern;
 
@@ -60,7 +64,14 @@ export class Main {
   }
 
   private copyAssets() {
-    fs.copy(`${this.srcPath}/${this.srcAssets}`, `${this.distPath}/${this.srcAssets}`);
+
+    if (!isEmptyNullUndefined(this.customAssets)) {
+      fs.copy(`${this.srcPath}/${this.customAssets}`, `${this.distPath}/${this.customAssets}`);
+    } else {
+      fs.copy(`${ASSETS_PATH}`, `${this.distPath}/${ASSETS_PATH}`);
+    }
+    // const assets = getAssetsPath(this.srcPath, this.customAssets);
+    // fs.copy(`${this.srcPath}/${assets}`, `${this.distPath}/${assets}`);
   }
 
   private loadAllFiles() {
@@ -152,7 +163,7 @@ export class Main {
       // Assign layouts
       const layout = pageData.attributes['layout'] || 'default';
       const layoutFileName = `${this.srcPath}/${
-        this.srcPathLayouts
+        this.customPathLayouts
         }/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
