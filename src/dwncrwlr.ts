@@ -12,13 +12,10 @@ import {
   consoleStyle,
   readFileContents,
   ArrayListMultimap,
-  getAssetsPath,
-  isEmptyNullUndefined
+  getAssetsPath
 } from './helpers';
 
 const config = require('../dwncrwlr.config.json');
-
-const ASSETS_PATH = './assets';
 
 export class Main {
   // Variabel declaration defined in dwncrwlr.config.json
@@ -35,7 +32,6 @@ export class Main {
 
   // private navigationItem: NavigationItem;
   private navigation: ArrayListMultimap<string, NavigationItem>;
-  private menu = [];
 
   constructor() { }
 
@@ -64,15 +60,9 @@ export class Main {
   }
 
   private copyAssets() {
-
-    if (!isEmptyNullUndefined(this.customAssets)) {
-      fs.copy(`${this.srcPath}/${this.customAssets}`, `${this.distPath}/${this.customAssets}`);
-    } else {
-      fs.copy(`${ASSETS_PATH}`, `${this.distPath}/${ASSETS_PATH}`);
-    }
-    // const assets = getAssetsPath(this.srcPath, this.customAssets);
-    // fs.copy(`${this.srcPath}/${assets}`, `${this.distPath}/${assets}`);
+    fs.copy(`${getAssetsPath(this.customAssets)}`, `${this.distPath}/${getAssetsPath(this.customAssets)}`);
   }
+
 
   private loadAllFiles() {
     console.log('Supported file extensions:');

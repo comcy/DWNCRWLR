@@ -5,8 +5,8 @@ export const getAssetsPath = (
 ) => {
 
     if (!isEmptyNullUndefined(assets)) {
-
+        return assets;
+    } else {
+        return './assets';
     }
-
-    return 
 };
