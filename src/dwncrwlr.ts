@@ -22,8 +22,8 @@ export class Main {
   private srcPath = config.build.srcPath;
   private srcPathSites = config.build.srcPathSites;
   private distPath = config.build.distPath;
-  private customPathLayouts = config.build.customPathLayouts;
-  private customAssets = config.build.customAssets;
+  private srcCustomPathLayouts = config.build.customPathLayouts;
+  private srcCustomAssets = config.build.customAssets;
 
   private supportedExtensions = config.build.supportedContentExtensionsPattern;
 
@@ -60,7 +60,8 @@ export class Main {
   }
 
   private copyAssets() {
-    fs.copy(`${getAssetsPath(this.customAssets)}`, `${this.distPath}/${getAssetsPath(this.customAssets)}`);
+    const path: string[] = getAssetsPath(this.srcPath, this.srcCustomAssets);
+    fs.copy(`${path[0]}/${path[1]}`, `${this.distPath}/${path[1]}`);
   }
 
 
@@ -153,7 +154,7 @@ export class Main {
       // Assign layouts
       const layout = pageData.attributes['layout'] || 'default';
       const layoutFileName = `${this.srcPath}/${
-        this.customPathLayouts
+        this.srcCustomPathLayouts
         }/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
