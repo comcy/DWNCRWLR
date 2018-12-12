@@ -1,5 +1,7 @@
 import { isEmptyNullUndefined } from "./index";
 
+export const DEFAULT_ASSETS_PATH = './assets';
+
 export const getAssetsPath = (
     assets: string
 ) => {
@@ -7,6 +9,6 @@ export const getAssetsPath = (
     if (!isEmptyNullUndefined(assets)) {
         return assets;
     } else {
-        return './assets';
+        return DEFAULT_ASSETS_PATH;
     }
 };
