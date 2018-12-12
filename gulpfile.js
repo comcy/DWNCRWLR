@@ -10,8 +10,12 @@ var del = require('del');
 // Decalrations
 
 var paths = {
+  files: ['package.json', 'README.md', 'LICENSE'],
+  srcStyles: 'styles/css/**/*',
+  srcViews: 'views/**/*',
   dist: 'dist',
-  files: ['package.json', 'assets/*', 'README.md', 'LICENSE'],
+  distAssets: 'dist/assets',
+  distViews: 'dist/views',
   tslint: 'tsconfig.json'
 };
 
@@ -61,14 +65,33 @@ gulp.task('additional:dist', function () {
     .pipe(gulp.dest(paths.dist));
 });
 
+
+// Default assets project files
+gulp.task('assets:dist', function () {
+  return gulp.src(paths.srcStyles)
+    .pipe(gulp.dest(paths.distAssets));
+});
+
+
+// Default views project files
+gulp.task('views:dist', function () {
+  return gulp.src(paths.srcViews)
+    .pipe(gulp.dest(paths.distViews));
+});
+
+
 // Copy tasks bundle
 gulp.task('copy:dist', [
+  'assets:dist',
+  'views:dist',
   'additional:dist',
   'typescript:dist'
 ]);
 
+
 // Build app to `dist`: Starting point
 gulp.task('build', ['clean', 'copy:dist']);
+
 
 // Gulp default starting point
 gulp.task('default', ['build'], function () { });

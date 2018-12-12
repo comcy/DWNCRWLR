@@ -12,7 +12,7 @@
     "clean-package": "node ./buildtools/cleanup-package.js",
     "dev:js": "npm run tsc && npm run styles && npm run dwncrwlr:ts",
     "dev:ts": "npm run styles && npm run dwncrwlr:ts",
-    "styles": "node-sass ./styles/scss/index.scss ./assets/css/styles.css",
+    "styles": "node-sass ./styles/scss/index.scss ./styles/css/styles.css",
     "dwncrwlr:js": "node ./src/dwncrwlr.js",
     "dwncrwlr:ts": "ts-node ./src/dwncrwlr.ts",
     "watch": "watch 'npm run build' ./src",
