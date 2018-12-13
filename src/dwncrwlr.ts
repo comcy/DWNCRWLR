@@ -15,6 +15,7 @@ import {
   getAssetsPath,
   getViewsPath
 } from './helpers';
+import { Cli } from './cli/cli';
 
 const config = require('../dwncrwlr.config.json');
 
@@ -175,6 +176,12 @@ export class Main {
     });
   }
 }
+
+let cli = new Cli();
+const args = cli.readArgs();
+// const input = cli.getInput(args.i);
+
+console.log('args2: ', args);
 
 let main = new Main();
 main.init();

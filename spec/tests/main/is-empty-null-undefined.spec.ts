@@ -1,5 +1,5 @@
 import 'jasmine';
-import { isEmptyNullUndefined } from "./../src/helpers/is-empty-null-undefined.function";
+import { isEmptyNullUndefined } from "../../../src/helpers/is-empty-null-undefined.function";
 
 describe("isEmptyNullUndefined()", function () {
 

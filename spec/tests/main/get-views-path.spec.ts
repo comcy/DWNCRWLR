@@ -1,5 +1,5 @@
 import 'jasmine';
-import { getViewsPath, DEFAULT_VIEWS_PATH, DEFAULT_ACTUAL_PATH } from "./../src/helpers/get-views-path.function";
+import { getViewsPath, DEFAULT_VIEWS_PATH, DEFAULT_ACTUAL_PATH } from "../../../src/helpers/get-views-path.function";
 
 
 describe("getViewsPath()", function () {

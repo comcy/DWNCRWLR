@@ -17,6 +17,7 @@ spec/reports
 
 # Styles
 styles/css/**/*.css
+assets
 
 # JetBrains
 .idea

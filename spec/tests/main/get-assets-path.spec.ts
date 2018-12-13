@@ -1,5 +1,5 @@
 import 'jasmine';
-import { getAssetsPath, DEFAULT_ASSETS_PATH, DEFAULT_ACTUAL_PATH } from "./../src/helpers/get-assets-path.function";
+import { getAssetsPath, DEFAULT_ASSETS_PATH, DEFAULT_ACTUAL_PATH } from "../../../src/helpers/get-assets-path.function";
 
 
 describe("getAssetsPath()", function () {
