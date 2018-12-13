@@ -1,11 +1,11 @@
 # DWNCRWLR
 
-TODO: Add badges
+[![Build Status](https://comcy.visualstudio.com/Tools/_apis/build/status/%5BCI%5D%20DWNCRWLR_master?branchName=master)](https://comcy.visualstudio.com/Tools/_build/latest?definitionId=2?branchName=master)
 
 
 `DWNCRWLR` is a static site generator. 
 
-This repository  represents a ready-forr-use sample project for usage of the generator itself. 
+This repository  represents a ready-for-use sample project for usage of the generator itself. 
 
 This repository also provides a `npm` package to integrate the generator to any project structure you want.
 
@@ -13,17 +13,17 @@ This repository also provides a `npm` package to integrate the generator to any 
 **Content**
 
 - [DWNCRWLR](#dwncrwlr)
-    - [Installation](#installation)
-        - [Clone](#clone)
-        - [Setup](#setup)
-        - [Usage](#usage)
-        - [Customization](#customization)
-    - [Documentation](#documentation)
-    - [Tests](#tests)
-    - [FAQ / Troubleshooting](#faq--troubleshooting)
-    - [License](#license)
-    - [Further readings](#further-readings)
-        - [Tests](#tests-1)
+  - [Installation](#installation)
+    - [Clone](#clone)
+    - [Setup](#setup)
+    - [Usage](#usage)
+    - [Customization](#customization)
+  - [Documentation](#documentation)
+  - [Tests](#tests)
+  - [FAQ / Troubleshooting](#faq--troubleshooting)
+  - [License](#license)
+  - [Further readings](#further-readings)
+    - [Tests](#tests-1)
 
 ---
 
