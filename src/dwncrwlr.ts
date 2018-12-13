@@ -12,7 +12,8 @@ import {
   consoleStyle,
   readFileContents,
   ArrayListMultimap,
-  getAssetsPath
+  getAssetsPath,
+  getViewsPath
 } from './helpers';
 
 const config = require('../dwncrwlr.config.json');
@@ -60,8 +61,8 @@ export class Main {
   }
 
   private copyAssets() {
-    const path: string[] = getAssetsPath(this.srcPath, this.srcCustomAssets);
-    fs.copy(`${path[0]}/${path[1]}`, `${this.distPath}/${path[1]}`);
+    const assetsPath: string[] = getAssetsPath(this.srcPath, this.srcCustomAssets);
+    fs.copy(`${assetsPath[0]}${assetsPath[1]}`, `${this.distPath}/${assetsPath[1]}`);
   }
 
 
@@ -153,9 +154,8 @@ export class Main {
 
       // Assign layouts
       const layout = pageData.attributes['layout'] || 'default';
-      const layoutFileName = `${this.srcPath}/${
-        this.srcCustomPathLayouts
-        }/${layout}.ejs`;
+      const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);    
+      const layoutFileName = `${viewsPath[0]}/${viewsPath[1]}/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
       const finalPage = ejs.render(

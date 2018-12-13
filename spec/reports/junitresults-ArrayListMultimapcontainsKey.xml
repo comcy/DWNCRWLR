@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="4" time="0.011">
- <testsuite name="ArrayList Multimap: containsKey()" timestamp="2018-12-12T22:19:01" hostname="localhost" time="0.011" errors="0" tests="4" skipped="0" disabled="0" failures="0">
-  <testcase classname="ArrayList Multimap: containsKey()" name="contains a key named &apos;one&apos;" time="0.005" />
-  <testcase classname="ArrayList Multimap: containsKey()" name="contains a value named &apos;1&apos;" time="0" />
-  <testcase classname="ArrayList Multimap: containsKey()" name="contains a entry with key &apos;one&apos; and value &apos;1&apos;" time="0" />
+<testsuites disabled="0" errors="0" failures="0" tests="4" time="0.005">
+ <testsuite name="ArrayList Multimap: containsKey()" timestamp="2018-12-13T17:40:55" hostname="localhost" time="0.005" errors="0" tests="4" skipped="0" disabled="0" failures="0">
+  <testcase classname="ArrayList Multimap: containsKey()" name="contains a value named &apos;1&apos;" time="0.001" />
+  <testcase classname="ArrayList Multimap: containsKey()" name="contains a key named &apos;one&apos;" time="0" />
+  <testcase classname="ArrayList Multimap: containsKey()" name="contains a entry with key &apos;one&apos; and value &apos;1&apos;" time="0.001" />
   <testcase classname="ArrayList Multimap: containsKey()" name="contains a entry with a key and a value" time="0.001" />
  </testsuite>
 </testsuites>
