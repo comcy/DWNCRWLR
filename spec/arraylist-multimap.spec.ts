@@ -7,7 +7,8 @@ arrayList.put('one', '1');
 arrayList.put('two', '2');
 arrayList.put('three', '3');
 
-describe("ArrayList Multimap: containsKey()", function () {
+describe("ArrayListMultimap", function () {
+    
     it("contains a key named 'one'", function () {
         expect(arrayList.containsKey('one')).toBe(true);
     });

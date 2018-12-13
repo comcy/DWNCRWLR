@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="1" time="0.004">
- <testsuite name="A TEST suite" timestamp="2018-12-08T00:07:11" hostname="localhost" time="0.004" errors="0" tests="1" skipped="0" disabled="0" failures="0">
-  <testcase classname="A TEST suite" name="contains spec with an expectation" time="0.002" />
- </testsuite>
-</testsuites>

@@ -2,7 +2,7 @@ import 'jasmine';
 import { getViewsPath, DEFAULT_VIEWS_PATH, DEFAULT_ACTUAL_PATH } from "./../src/helpers/get-views-path.function";
 
 
-describe("Check function: getViewsPath()", function () {
+describe("getViewsPath()", function () {
 
     const customSrcValue = './project';
     const customViewsValue = '/views/layouts';

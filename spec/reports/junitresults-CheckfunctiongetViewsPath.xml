@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<testsuites disabled="0" errors="0" failures="0" tests="2" time="0.003">
- <testsuite name="Check function: getViewsPath()" timestamp="2018-12-13T17:40:55" hostname="localhost" time="0.003" errors="0" tests="2" skipped="0" disabled="0" failures="0">
-  <testcase classname="Check function: getViewsPath()" name="value is custom &apos;/views/layouts&apos;" time="0.001" />
-  <testcase classname="Check function: getViewsPath()" name="value is &apos;&apos;" time="0.001" />
- </testsuite>
-</testsuites>

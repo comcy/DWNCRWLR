@@ -15,6 +15,6 @@ jasmine.getEnv().addReporter(new SpecReporter({
 var reporters = require('jasmine-reporters');
 var junitReporter = new reporters.JUnitXmlReporter({
     savePath: 'spec/reports',
-    consolidateAll: false
+    consolidateAll: true
 });
 jasmine.getEnv().addReporter(junitReporter)

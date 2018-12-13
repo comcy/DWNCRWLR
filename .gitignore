@@ -12,6 +12,9 @@ src/**/*.ngsummary.json
 **.d.ts
 **.ngsummary.json
 
+# Tests
+spec/reports
+
 
 # JetBrains
 .idea

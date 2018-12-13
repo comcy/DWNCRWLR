@@ -1,7 +1,7 @@
 import 'jasmine';
 import { isEmptyNullUndefined } from "./../src/helpers/is-empty-null-undefined.function";
 
-describe("Check function: isEmptyNullUndefined()", function () {
+describe("isEmptyNullUndefined()", function () {
 
     const nullValue = null;
     const emptyStringValue = '';
