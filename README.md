@@ -16,7 +16,7 @@ This repository also provides a `npm` package to integrate the generator to any 
   - [Installation](#installation)
     - [Clone](#clone)
     - [Setup](#setup)
-    - [Usage](#usage)
+  - [Usage](#usage)
     - [Customization](#customization)
   - [Documentation](#documentation)
   - [Tests](#tests)
@@ -35,6 +35,8 @@ The repository mainly provides two different approaches for using it:
 1. 'Clone and own' the repsoitory and make small and simple configurations to use it or just extend its functionality. If you want to use this approach then follow the instrcutions under the next [Section: Clone](#clone). 
 
 2. Use the `npm` package within your custom project and provide a configuration. Then follow [Section: Setup](#setup).
+
+
 
 
 ### Clone
@@ -70,7 +72,7 @@ TODO: Write install and edit config.
 `assets`
 
 
-### Usage
+## Usage
 TODO: Describe assets
 
 
