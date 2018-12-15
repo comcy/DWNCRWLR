@@ -179,9 +179,10 @@ export class Main {
 
 let cli = new Cli();
 const args = cli.readArgs();
-// const input = cli.getInput(args.i);
-
 console.log('args2: ', args);
+
+const input = cli.getInput(args.i);
+console.log('input: ', input);
 
 let main = new Main();
 main.init();
