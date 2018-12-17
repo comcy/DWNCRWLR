@@ -11,14 +11,7 @@ export class Argument {
         this.setName();
         this.setVersion();
     }
-
-    // constructor(input: string) {
-    //     this.setInput(input);
-    //     this.setName();
-    //     this.setVersion();
-    // }
-
-
+    
     /**
      * 
      */

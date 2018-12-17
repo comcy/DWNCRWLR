@@ -38,6 +38,7 @@ export class Dwncrwlr {
 
   constructor(configPath: string) {
 
+    // TODO: refactoring file input
     this.config = require(`../${configPath}`);
     this.srcPath = this.config.build.srcPath;
     this.srcPathSites = this.config.build.srcPathSites;
@@ -186,8 +187,6 @@ export class Dwncrwlr {
     });
   }
 }
-
-
 
 let cli = new Cli();
 let argument = new Argument(cli.getCliArgs());
