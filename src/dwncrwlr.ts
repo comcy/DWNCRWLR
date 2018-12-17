@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { Argument } from "./cli/arguments";
 
 import * as fs from 'fs-extra';
 import * as path from 'path';
@@ -19,7 +20,7 @@ import { Cli } from './cli/cli';
 
 const config = require('../dwncrwlr.config.json');
 
-export class Main {
+export class Dwncrwlr {
   // Variabel declaration defined in dwncrwlr.config.json
   private srcPath = config.build.srcPath;
   private srcPathSites = config.build.srcPathSites;
@@ -177,12 +178,19 @@ export class Main {
   }
 }
 
-let cli = new Cli();
-const args = cli.readArgs();
-console.log('args2: ', args);
 
-const input = cli.getInput(args.i);
-console.log('input: ', input);
 
-let main = new Main();
-main.init();
+// let cli = new Cli();
+// const args: string[] = cli.readCli();
+// console.log('args2: ', args);
+// const input: string = args[2];
+
+const argv: string[] = process.argv.slice(2);
+let input: string = '';
+input = argv[2];
+let argument: Argument = new Argument(input);
+
+console.log('arguments: ', argument);
+
+let dwncrwlr = new Dwncrwlr();
+dwncrwlr.init();
