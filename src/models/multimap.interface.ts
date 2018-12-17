@@ -1,4 +1,4 @@
-import { MultimapEntry } from "./multimap-entry.model";
+import { MultimapEntry } from './multimap-entry';
 
 export interface MultiMap<K, V> {
   clear(): void
