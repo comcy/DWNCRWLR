@@ -2,17 +2,21 @@ import { isEmptyNullUndefined } from '../helpers';
 
 export class Argument {
 
-
     private name: string;
     private input: string;
     private version: string;
 
-
-    constructor(input: string) {
-        this.setInput(input);
+    constructor(args: string[]) {
+        this.setInput(args[0]);
         this.setName();
         this.setVersion();
     }
+
+    // constructor(input: string) {
+    //     this.setInput(input);
+    //     this.setName();
+    //     this.setVersion();
+    // }
 
 
     /**
@@ -29,10 +33,8 @@ export class Argument {
      */
     setInput(input: string) {
         if (!isEmptyNullUndefined(input)) {
-            console.log("asd", input)
             this.input = input;
         } else {
-            console.log("asd2", input)
             throw new Error('No input parameter set.');
         }
         
@@ -75,6 +77,7 @@ export class Argument {
      * 
      */
     getPackageJson(){
+        // TODO env for Prod and Dev
         const pckg = require('../../package.json');
         return pckg;
     }

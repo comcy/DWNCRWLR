@@ -10,7 +10,7 @@
         "homelabel": "Home"
     },
     "build": {
-        "srcPath": "./profile",
+        "srcPath": "./profile-sample",
         "srcPathSites": "sites",
         "distPath": "./publish",
         "supportedContentExtensionsPattern": "md|ejs|html",

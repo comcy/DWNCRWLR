@@ -5,13 +5,16 @@ export class Cli {
 
     args: string[] = [];
 
-    constructor() { }
+    constructor() {
+        this.setCliArgs();
+    }
 
-    /**
-     * 
-     */
-    public readCli(): any {
-        this.args =  process.argv.slice(2); 
+    setCliArgs() {
+        this.args = process.argv.slice(2);
+    }
+
+
+    getCliArgs(){
         return this.args;
     }
 }

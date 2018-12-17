@@ -18,17 +18,17 @@ import {
 } from './helpers';
 import { Cli } from './cli/cli';
 
-const config = require('../dwncrwlr.config.json');
-
 export class Dwncrwlr {
+  
   // Variabel declaration defined in dwncrwlr.config.json
-  private srcPath = config.build.srcPath;
-  private srcPathSites = config.build.srcPathSites;
-  private distPath = config.build.distPath;
-  private srcCustomPathLayouts = config.build.customPathLayouts;
-  private srcCustomAssets = config.build.customAssets;
+  private config;
+  private srcPath;
+  private srcPathSites;
+  private distPath;
+  private srcCustomPathLayouts;
+  private srcCustomAssets;
 
-  private supportedExtensions = config.build.supportedContentExtensionsPattern;
+  private supportedExtensions;
 
   // Build declarations
   private files;
@@ -36,7 +36,16 @@ export class Dwncrwlr {
   // private navigationItem: NavigationItem;
   private navigation: ArrayListMultimap<string, NavigationItem>;
 
-  constructor() { }
+  constructor(configPath: string) {
+
+    this.config = require(`../${configPath}`);
+    this.srcPath = this.config.build.srcPath;
+    this.srcPathSites = this.config.build.srcPathSites;
+    this.distPath = this.config.build.distPath;
+    this.srcCustomPathLayouts = this.config.build.customPathLayouts;
+    this.srcCustomAssets = this.config.build.customAssets;
+    this.supportedExtensions = this.config.build.supportedContentExtensionsPattern;
+  }
 
   public init() {
     console.log(consoleStyle.textFgRed, consoleStyle.asciiLogo);
@@ -132,7 +141,7 @@ export class Dwncrwlr {
           lastupdate: actualDate,
           navigation: this.navigation
         },
-        config,
+        this.config,
         {
           page: pageData.attributes
         }
@@ -156,7 +165,7 @@ export class Dwncrwlr {
 
       // Assign layouts
       const layout = pageData.attributes['layout'] || 'default';
-      const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);    
+      const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);
       const layoutFileName = `${viewsPath[0]}/${viewsPath[1]}/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
@@ -180,17 +189,8 @@ export class Dwncrwlr {
 
 
 
-// let cli = new Cli();
-// const args: string[] = cli.readCli();
-// console.log('args2: ', args);
-// const input: string = args[2];
+let cli = new Cli();
+let argument = new Argument(cli.getCliArgs());
 
-const argv: string[] = process.argv.slice(2);
-let input: string = '';
-input = argv[2];
-let argument: Argument = new Argument(input);
-
-console.log('arguments: ', argument);
-
-let dwncrwlr = new Dwncrwlr();
+let dwncrwlr = new Dwncrwlr(argument.getInput());
 dwncrwlr.init();
