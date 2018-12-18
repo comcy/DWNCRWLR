@@ -51,7 +51,7 @@ export class Argument {
 
 
     /**
-     * 
+     * This method returns the actual application `name`
      */
     getName() {
         return this.name;
@@ -59,7 +59,8 @@ export class Argument {
 
 
     /**
-     * 
+     * This method sets the name of the application.
+     * The `name` is set per default as extracted information form `package.json`
      */
     setName() {
         this.name = this.getPackageJson().name;
@@ -67,7 +68,7 @@ export class Argument {
 
 
     /**
-     * 
+     * This method loads the `package.json` of the application 
      */
     getPackageJson(){
         // TODO env for Prod and Dev
@@ -77,7 +78,7 @@ export class Argument {
 
 
     /**
-     * 
+     * This method prints the `name` and the `version` information of the application.
      */
     printInformation() {
         console.log(`${this.getName()} - version: ${this.getVersion()}`)
