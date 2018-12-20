@@ -14,16 +14,16 @@ describe("Cli", function () {
 
     const nullArgs = minimist([]);
 
-    it("getInput() parameter with input flag '-i' is set", function () {
+    // it("getInput() parameter with input flag '-i' is set", function () {
 
-        console.log('test', cli.getInput(args));
+    //     console.log('test', cli.getInput(args));
 
-        expect(cli.getInput(args)).toBe('');
-    });
+    //     expect(cli.getInput(args)).toBe('');
+    // });
 
 
-    it("getInput() parameter with input flag '-i' is NOT set", function () {
-        expect(function () { cli.getInput(nullArgs); }).toThrow(new Error('No input parameter set.'));
-    });
+    // it("getInput() parameter with input flag '-i' is NOT set", function () {
+    //     expect(function () { cli.getInput(nullArgs); }).toThrow(new Error('No input parameter set.'));
+    // });
 
 });
