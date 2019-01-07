@@ -1,4 +1,4 @@
-import { MultiMap, MultimapEntry } from "../models";
+import { MultiMap, MultimapEntry } from "../models/index";
 
 export class ArrayListMultimap<K, V> implements MultiMap<K, V> {
 
