@@ -63,6 +63,7 @@ If you just want to use the project structure provided within this repsoitory yo
 TODO: write about cloning repo, edit config and use structure to generate a site.
 
 ### Setup
+
 TODO: Write install and edit config.
 
 `views`
@@ -73,6 +74,7 @@ TODO: Write install and edit config.
 
 
 ## Usage
+
 TODO: Describe assets
 
 
@@ -88,6 +90,14 @@ View: `layouts`
 
 ## Tests
 
+Tests can be run by using 'npm test'. 
+
+Unit Test are supported by Jasmine.
+
+Spec reporters:
+
+- Junit XML based file output
+- Console output
 
 ## FAQ / Troubleshooting
 
