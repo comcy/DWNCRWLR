@@ -5,7 +5,7 @@
     "**/*[sS]pec.ts"
   ],
   "helpers": [
-    "spec/helpers/**/*.ts"
+    "helpers/**/*.ts"
   ],
   "oneFailurePerSpec": false,
   "randomizeTests": true

@@ -1,5 +1,13 @@
 import { DisplayProcessor, SpecReporter } from "jasmine-spec-reporter";
 import SuiteInfo = jasmine.SuiteInfo;
+import * as reporters from "jasmine-reporters";
+
+
+const junitReporter = new reporters.JUnitXmlReporter({
+    savePath: "spec/reports",
+    consolidateAll: true,
+    filePrefix: "zimt-utilities-results"
+});
 
 class CustomProcessor extends DisplayProcessor {
     public displayJasmineStarted(info: SuiteInfo, log: string): string {
@@ -8,14 +16,9 @@ class CustomProcessor extends DisplayProcessor {
 }
 
 jasmine.getEnv().clearReporters();
-jasmine.getEnv().addReporter(new SpecReporter({
-    customProcessors: [CustomProcessor],
-}));
-
-var reporters = require('jasmine-reporters');
-var junitReporter = new reporters.JUnitXmlReporter({
-    savePath: 'spec/reports',
-    consolidateAll: true,
-    filePrefix: 'spec-results'
-});
-jasmine.getEnv().addReporter(junitReporter)
+jasmine.getEnv().addReporter(
+    new SpecReporter({
+        customProcessors: [CustomProcessor]
+    })
+);
+jasmine.getEnv().addReporter(junitReporter);
