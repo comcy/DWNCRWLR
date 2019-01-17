@@ -1,20 +1,19 @@
 /**
- * 
+ *
  */
 export class Cli {
 
-    args: string[] = [];
+    private args: string[] = [];
 
     constructor() {
         this.setCliArgs();
     }
 
-    setCliArgs() {
+    public setCliArgs() {
         this.args = process.argv.slice(2);
     }
 
-
-    getCliArgs(){
+    public getCliArgs() {
         return this.args;
     }
 }

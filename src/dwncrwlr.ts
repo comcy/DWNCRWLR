@@ -27,7 +27,6 @@ export class Dwncrwlr {
   private distPath;
   private srcCustomPathLayouts;
   private srcCustomAssets;
-
   private supportedExtensions;
 
   // Build declarations

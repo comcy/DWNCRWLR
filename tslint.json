@@ -1,0 +1,24 @@
+ {
+    "extends": "tslint:recommended",
+    "_rulesDirectory": ["./tslint-config/", "another/path/"],
+    "rules": {
+        "max-line-length": {
+            "options": [120]
+        },
+        "triple-equals": [true, "allow-null-check", "allow-undefined-check"],
+        "quotemark": [
+            true,
+            "single",
+            "jsx-double"
+        ],
+        "new-parens": true,
+        "_no-arg": true,
+        "_no-bitwise": true,
+        "_no-conditional-assignment": true,
+        "_no-consecutive-blank-lines": false,
+        "no-console": {
+            "severity": "warning",
+            "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
+        }
+    }
+}

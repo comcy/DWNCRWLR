@@ -20,7 +20,8 @@
     "tsc": "tsc",
     "tsc:watch": "tsc -w",
     "serve": "serve ./publish",
-    "test": "ts-node node_modules/jasmine/bin/jasmine"
+    "test": "ts-node node_modules/jasmine/bin/jasmine",
+    "tslint": "tslint -p ./tsconfig.json -c ./tslint.json"
   },
   "keywords": [],
   "author": "Christian Silfang (comcy)",
