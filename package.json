@@ -1,6 +1,6 @@
 {
   "name": "dwncrwlr",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Static site generator which generates EJS suppored HTML files from Markdown, HTML and EJS input.",
   "main": "dwncrwlr.js",
   "bin": {
