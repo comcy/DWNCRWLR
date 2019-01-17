@@ -1,25 +1,25 @@
 #!/usr/bin/env node
-import { Argument } from "./cli/arguments";
-
-import * as fs from 'fs-extra';
-import * as path from 'path';
 import * as ejs from 'ejs';
-import * as glob from 'glob';
-import * as showdown from 'showdown';
 import * as frontMatter from 'front-matter';
+import * as fs from 'fs-extra';
+import * as glob from 'glob';
 import * as moment from 'moment';
-import { NavigationItem } from './models';
+import * as path from 'path';
+import * as showdown from 'showdown';
+
+import { Argument, Cli } from './cli';
+import { FrontmatterAttributes } from './enums';
 import {
-  consoleStyle,
-  readFileContents,
   ArrayListMultimap,
+  consoleStyle,
   getAssetsPath,
-  getViewsPath
+  getViewsPath,
+  readFileContents
 } from './helpers';
-import { Cli } from './cli/cli';
+import { NavigationItem } from './models';
 
 export class Dwncrwlr {
-  
+
   // Variabel declaration defined in dwncrwlr.config.json
   private config;
   private srcPath;
@@ -48,11 +48,17 @@ export class Dwncrwlr {
   }
 
   public init() {
+    // tslint:disable-next-line:no-console
     console.log(consoleStyle.textFgRed, consoleStyle.asciiLogo);
+    // tslint:disable-next-line:no-console
     console.log('\n', consoleStyle.textFgMagenta);
+    // tslint:disable-next-line:no-console
     console.log('//-----------------------------------------------------');
+    // tslint:disable-next-line:no-console
     console.log('\t Starting static site generation');
+    // tslint:disable-next-line:no-console
     console.log('//-----------------------------------------------------');
+    // tslint:disable-next-line:no-console
     console.log('\n', consoleStyle.styleReset);
 
     this.cleanUpDist();
@@ -61,9 +67,13 @@ export class Dwncrwlr {
     this.createNavigation();
     this.generateAllFiles();
 
+    // tslint:disable-next-line:no-console
     console.log('\n', consoleStyle.textFgMagenta);
+    // tslint:disable-next-line:no-console
     console.log('//-----------------------------------------------------');
+    // tslint:disable-next-line:no-console
     console.log('\t Finished static site generation');
+    // tslint:disable-next-line:no-console
     console.log('//-----------------------------------------------------');
   }
 
@@ -76,22 +86,25 @@ export class Dwncrwlr {
     fs.copy(`${assetsPath[0]}${assetsPath[1]}`, `${this.distPath}/${assetsPath[1]}`);
   }
 
-
   private loadAllFiles() {
+    // tslint:disable-next-line:no-console
     console.log('Supported file extensions:');
+    // tslint:disable-next-line:no-console
     console.log(consoleStyle.textFgGreen, `${this.supportedExtensions}`);
 
     this.files = glob.sync(`**/*.@(${this.supportedExtensions})`, {
       cwd: `${this.srcPath}/${this.srcPathSites}`
     });
 
+    // tslint:disable-next-line:no-console
     console.log('\n', consoleStyle.styleReset);
+    // tslint:disable-next-line:no-console
     console.log('Detected files:\n', this.files);
   }
 
   private createNavigation() {
     this.navigation = new ArrayListMultimap<string, NavigationItem>();
-    this.files.forEach(file => {
+    this.files.forEach((file) => {
       const fileInfoNav = path.parse(file);
       const fileContent = readFileContents(
         `${this.srcPath}/${this.srcPathSites}`,
@@ -104,21 +117,25 @@ export class Dwncrwlr {
           new NavigationItem(
             fileInfoNav.name,
             fileInfoNav.dir,
-            fileMetadata.attributes['displayName']
+            fileMetadata.attributes[FrontmatterAttributes.DisplayName]
           )
         );
       }
     });
 
-    // DEBUG OUTPUT FOR FILE HIERACHY
+    // tslint:disable-next-line:no-console
     console.log('####################################################');
     this.navigation.keys().forEach(key => {
+      // tslint:disable-next-line:no-console
       console.log('Key: ', key);
-      console.log('Count: ' + this.navigation.valueCount(key))
+      // tslint:disable-next-line:no-console
+      console.log('Count: ' + this.navigation.valueCount(key));
       this.navigation.get(key).forEach(val => {
+        // tslint:disable-next-line:no-console
         console.log('Value: ', val);
-      })
+      });
     });
+    // tslint:disable-next-line:no-console
     console.log('####################################################');
   }
 
@@ -164,7 +181,7 @@ export class Dwncrwlr {
       }
 
       // Assign layouts
-      const layout = pageData.attributes['layout'] || 'default';
+      const layout = pageData.attributes[FrontmatterAttributes.Layout] || 'default';
       const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);
       const layoutFileName = `${viewsPath[0]}/${viewsPath[1]}/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
@@ -187,8 +204,8 @@ export class Dwncrwlr {
   }
 }
 
-let cli = new Cli();
-let argument = new Argument(cli.getCliArgs());
+const cli = new Cli();
+const argument = new Argument(cli.getCliArgs());
 
-let dwncrwlr = new Dwncrwlr(argument.getInput());
+const dwncrwlr = new Dwncrwlr(argument.getInput());
 dwncrwlr.init();

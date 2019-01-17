@@ -11,7 +11,17 @@
             "single",
             "jsx-double"
         ],
+        "trailing-comma": [
+            true,
+            {
+                "multiline": {
+                    "functions": "never"
+                },
+                "singleline": "never"
+            }
+        ],
         "new-parens": true,
+        "arrow-parens": false,
         "_no-arg": true,
         "_no-bitwise": true,
         "_no-conditional-assignment": true,
