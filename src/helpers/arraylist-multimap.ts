@@ -1,64 +1,65 @@
-import { MultiMap, MultimapEntry } from "../models/index";
+import { IMultiMap, MultimapEntry } from '../models/index';
 
-export class ArrayListMultimap<K, V> implements MultiMap<K, V> {
+export class ArrayListMultimap<K, V> implements IMultiMap<K, V> {
 
-  private _entries: MultimapEntry<K, V>[] = []
+  private entriesList: Array<MultimapEntry<K, V>> = [];
 
   public clear(): void {
-    this._entries = []
+    this.entriesList = [];
   }
 
   public containsKey(key: K): boolean {
-    return this._entries
+    return this.entriesList
       .filter(entry => entry.key === key)
-      .length > 0
+      .length > 0;
   }
 
   public containsValue(value: V): boolean {
-    return this._entries
+    return this.entriesList
       .filter(entry => entry.value === value)
-      .length > 0
+      .length > 0;
   }
 
   public containsEntry(key: K, value: V): boolean {
-    return this._entries
+    return this.entriesList
       .filter(entry => entry.key === key && entry.value === value)
-      .length > 0
+      .length > 0;
   }
 
   public valueCount(key: K): number {
-    return this._entries
+    return this.entriesList
       .filter(entry => entry.key === key)
-      .length
+      .length;
   }
 
   public delete(key: K, value?: V): boolean {
-    let temp = this._entries
-    this._entries = this._entries
+    const temp = this.entriesList;
+    this.entriesList = this.entriesList
       .filter(entry => {
-        if (value)
-          return entry.key !== key || entry.value !== value
-        return entry.key !== key
-      })
-    return temp.length !== this._entries.length
+        if (value) {
+          return entry.key !== key || entry.value !== value;
+        }
+        return entry.key !== key;
+      });
+    return temp.length !== this.entriesList.length;
   }
 
-  public get entries(): MultimapEntry<K, V>[] {
-    return this._entries
+  public get entries(): Array<MultimapEntry<K, V>> {
+    return this.entriesList;
   }
 
   public get(key: K): V[] {
-    return this._entries
+    return this.entriesList
       .filter(entry => entry.key === key)
-      .map(entry => entry.value)
+      .map(entry => entry.value);
   }
 
   public keys(): K[] {
-    return Array.from(new Set(this._entries.map(entry => entry.key)))
+    return Array.from(new Set(this.entriesList.map(entry => entry.key)));
   }
 
-  public put(key: K, value: V): MultimapEntry<K, V>[] {
-    this._entries.push(new MultimapEntry(key, value))
-    return this._entries
+  public put(key: K, value: V): Array<MultimapEntry<K, V>> {
+    this.entriesList.push(new MultimapEntry(key, value));
+    return this.entriesList;
   }
 }

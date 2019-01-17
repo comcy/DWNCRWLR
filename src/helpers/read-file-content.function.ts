@@ -1,10 +1,10 @@
 import * as fs from 'fs-extra';
 
 /**
- * 
- * @param path 
- * @param fileName 
- * @param encoding 
+ *
+ * @param path
+ * @param fileName
+ * @param encoding
  */
 export const readFileContents = (
   path: string,

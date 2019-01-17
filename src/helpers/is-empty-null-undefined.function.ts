@@ -5,8 +5,8 @@
 export const isEmptyNullUndefined = (
     value: any
 ) => {
-    if(value === null) return true;
-    if(value === '') return true;
-    if(value === undefined) return true;
+    if (value === null) { return true; }
+    if (value === '') { return true; }
+    if (value === undefined) { return true; }
     return false;
 };

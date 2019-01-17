@@ -22,10 +22,10 @@
         ],
         "new-parens": true,
         "arrow-parens": false,
-        "_no-arg": true,
-        "_no-bitwise": true,
-        "_no-conditional-assignment": true,
-        "_no-consecutive-blank-lines": false,
+        "no-arg": true,
+        "no-bitwise": true,
+        "no-conditional-assignment": true,
+        "no-consecutive-blank-lines": false,
         "no-console": {
             "severity": "warning",
             "options": ["debug", "info", "log", "time", "timeEnd", "trace"]
