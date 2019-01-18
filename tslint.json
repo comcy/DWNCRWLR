@@ -21,7 +21,7 @@
             }
         ],
         "new-parens": true,
-        "arrow-parens": false,
+        "arrow-parens": [true, "ban-single-arg-parens"]
         "no-arg": true,
         "no-bitwise": true,
         "no-conditional-assignment": true,
