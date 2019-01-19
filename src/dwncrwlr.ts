@@ -104,7 +104,7 @@ export class Dwncrwlr {
 
   private createNavigation() {
     this.navigation = new ArrayListMultimap<string, NavigationItem>();
-    this.files.forEach((file) => {
+    this.files.forEach(file => {
       const fileInfoNav = path.parse(file);
       const fileContent = readFileContents(
         `${this.srcPath}/${this.srcPathSites}`,
