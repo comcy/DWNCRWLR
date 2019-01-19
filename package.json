@@ -1,8 +1,11 @@
 {
   "name": "dwncrwlr",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Static site generator which generates EJS suppored HTML files from Markdown, HTML and EJS input.",
-  "main": "dwncrwlr.js",
+  "main": "./dwncrwlr.js",
+  "bin": {
+    "crwldwn": "./dwncrwlr.js"
+  },
   "scripts": {
     "build": "npm run styles && gulp && npm run clean-package",
     "build:qa": "npm test && npm run tslint && npm run styles && gulp && npm run clean-package",
