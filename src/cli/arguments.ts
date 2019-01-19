@@ -74,7 +74,7 @@ export class Argument {
      */
     private getPackageJson() {
         // TODO env for Prod and Dev
-        const pckg = require('../../package.json');
+        const pckg = require('../package.json');
         return pckg;
     }
 }
