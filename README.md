@@ -1,7 +1,7 @@
 # DWNCRWLR
 
 [![Build Status](https://comcy.visualstudio.com/Tools/_apis/build/status/%5BCI%5D%20DWNCRWLR_master?branchName=master)](https://comcy.visualstudio.com/Tools/_build/latest?definitionId=2?branchName=master)
-
+[![npm version](https://badge.fury.io/js/dwncrwlr.svg)](https://badge.fury.io/js/dwncrwlr)
 
 `DWNCRWLR` is a static site generator. 
 
