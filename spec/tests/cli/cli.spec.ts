@@ -4,7 +4,7 @@ import * as minimist from 'minimist';
 
 describe("Cli", function () {
 
-    const cli = new Cli();
+    // const cli = new Cli();
 
     const inputArray = ['a', 'b', '-i', 'value'];
     console.log('inputArray', inputArray);
