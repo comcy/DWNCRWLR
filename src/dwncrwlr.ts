@@ -38,7 +38,7 @@ export class Dwncrwlr {
   constructor(configPath: string) {
 
     // TODO: refactoring file input
-    this.config = require(`../${configPath}`);
+    this.config = require(`${configPath}`);
     this.srcPath = this.config.build.srcPath;
     this.srcPathSites = this.config.build.srcPathSites;
     this.distPath = this.config.build.distPath;
@@ -204,8 +204,11 @@ export class Dwncrwlr {
   }
 }
 
-const cli = new Cli();
-const argument = new Argument(cli.getCliArgs());
+const pathName = __dirname;
+const inputParams = process.argv.slice(2);
 
+const cli = new Cli(pathName, inputParams);
+const argument = new Argument(cli.getCliArgs());
 const dwncrwlr = new Dwncrwlr(argument.getInput());
+
 dwncrwlr.init();

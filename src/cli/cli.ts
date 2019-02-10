@@ -5,12 +5,13 @@ export class Cli {
 
     private args: string[] = [];
 
-    constructor() {
-        this.setCliArgs();
+    constructor(pathName: string, inputParams: string[]) {
+        this.setCliArgs(pathName, inputParams);
     }
 
-    public setCliArgs() {
-        this.args = process.argv.slice(2);
+    public setCliArgs(pathArg: string, inputArgs: string[]) {
+        this.args.push(pathArg);
+        this.args = this.args.concat(inputArgs);
     }
 
     public getCliArgs() {

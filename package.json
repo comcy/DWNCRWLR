@@ -1,6 +1,6 @@
 {
   "name": "dwncrwlr",
-  "version": "0.6.0",
+  "version": "0.6.3",
   "description": "Static site generator which generates EJS suppored HTML files from Markdown, HTML and EJS input.",
   "main": "./dwncrwlr.js",
   "bin": {
@@ -43,6 +43,7 @@
     "jasmine-spec-reporter": "^4.2.1",
     "jasmine-trx-reporter": "^2.2.2",
     "jasmine-ts": "^0.3.0",
+    "nlf": "^2.0.1",
     "node-sass": "^4.10.0",
     "serve": "^10.0.2",
     "standard-version": "^4.4.0",
@@ -52,7 +53,6 @@
     "watch": "^1.0.2"
   },
   "dependencies": {
-    "@types/minimist": "^1.2.0",
     "ejs": "^2.6.1",
     "front-matter": "^3.0.1",
     "fs-extra": "^7.0.1",
@@ -63,7 +63,6 @@
     "showdown": "^1.9.0"
   },
   "peerDependencies": {
-    "@types/minimist": "^1.2.0",
     "ejs": "^2.6.1",
     "front-matter": "^3.0.1",
     "fs-extra": "^7.0.1",

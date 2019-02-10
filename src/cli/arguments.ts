@@ -5,9 +5,11 @@ export class Argument {
     private name: string;
     private input: string;
     private version: string;
+    private distBasePath: string;
 
-    constructor(private args: string[]) {
-        this.setInput(args[0]);
+    constructor(args: string[]) {
+        this.setDistBasePath(args[0]);
+        this.setInput(args[1]);
         this.setName();
         this.setVersion();
     }
@@ -29,7 +31,6 @@ export class Argument {
         } else {
             throw new Error('No input parameter set.');
         }
-
     }
 
     /**
@@ -37,6 +38,11 @@ export class Argument {
      */
     public getVersion() {
         return this.version;
+    }
+
+
+    public getDistBasePath(): string {
+        return this.distBasePath;
     }
 
     /**
@@ -69,12 +75,18 @@ export class Argument {
         this.name = this.getPackageJson().name;
     }
 
+
+    private setDistBasePath(path: string) {
+        this.distBasePath = path;
+    }
+
+
     /**
      * This method loads the `package.json` of the application
      */
     private getPackageJson() {
         // TODO env for Prod and Dev
-        const pckg = require('../package.json');
+        const pckg = require(`${this.getDistBasePath()}\\package.json`);
         return pckg;
     }
 }
