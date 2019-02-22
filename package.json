@@ -20,7 +20,8 @@
     "tsc": "tsc",
     "tsc:watch": "tsc -w",
     "serve": "serve ./publish",
-    "test": "ts-node node_modules/jasmine/bin/jasmine",
+    "test": "jest",
+    "test:jasmine": "ts-node node_modules/jasmine/bin/jasmine",
     "tslint": "tslint -p ./tsconfig.json -c ./tslint.json"
   },
   "keywords": [],
@@ -45,6 +46,7 @@
     "jasmine-trx-reporter": "^2.2.2",
     "jasmine-ts": "^0.3.0",
     "jest": "^24.1.0",
+    "jest-html-reporter": "^2.4.4",
     "nlf": "^2.0.1",
     "node-sass": "^4.10.0",
     "serve": "^10.0.2",

@@ -14,6 +14,7 @@ src/**/*.ngsummary.json
 
 # Tests
 spec/reports
+reports
 
 # Styles
 styles/css/**/*.css

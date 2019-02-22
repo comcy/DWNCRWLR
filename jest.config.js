@@ -14,4 +14,12 @@ module.exports = {
         "json",
         "node"
     ],
-}
+    "reporters": [
+        "default",
+        ["./node_modules/jest-html-reporter", {
+            "pageTitle": "DWNCRWLR: Test Report",
+            "outputPath": "./reports/dwncrwlr-test-report.html",
+            "includeFailureMsg": true
+        }]
+    ]
+};
