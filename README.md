@@ -25,9 +25,7 @@ This repository also provides a `npm` package to integrate the generator to any 
   - [Further readings](#further-readings)
     - [Tests](#tests-1)
 
----
-
-
+--
 ## Installation
 
 The repository mainly provides two different approaches for using it:

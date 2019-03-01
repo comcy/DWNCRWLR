@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import * as path from 'path';
 import * as showdown from 'showdown';
 
+
 import { Argument, Cli } from './cli';
 import { FrontmatterAttributes } from './enums';
 import {
@@ -14,7 +15,8 @@ import {
   consoleStyle,
   getAssetsPath,
   getViewsPath,
-  readFileContents
+  readFileContents,
+  isEmptyNullUndefined
 } from './helpers';
 import { NavigationItem } from './models';
 
@@ -82,8 +84,13 @@ export class Dwncrwlr {
   }
 
   private copyAssets() {
-    const assetsPath: string[] = getAssetsPath(this.srcPath, this.srcCustomAssets);
-    fs.copy(`${assetsPath[0]}${assetsPath[1]}`, `${this.distPath}/${assetsPath[1]}`);
+    if (this.srcCustomAssets !== isEmptyNullUndefined) {
+      const assetsPath: string[] = getAssetsPath(this.srcPath, this.srcCustomAssets);
+      fs.copy(`${assetsPath[0]}${assetsPath[1]}`, `${this.distPath}/${assetsPath[1]}`);
+    } else {
+      fs.copy(`${assetsPath[0]}${assetsPath[1]}`, `${this.distPath}/${assetsPath[1]}`);
+    }
+
   }
 
   private loadAllFiles() {
@@ -204,11 +211,19 @@ export class Dwncrwlr {
   }
 }
 
-const pathName = __dirname;
-const inputParams = process.argv.slice(2);
+// const pathName = __dirname;
+// console.log(pathName);
 
-const cli = new Cli(pathName, inputParams);
-const argument = new Argument(cli.getCliArgs());
-const dwncrwlr = new Dwncrwlr(argument.getInput());
+// const inputParams = process.argv.slice(2);
+// const cli = new Cli(pathName, inputParams);
+// const argument = new Argument(cli.getCliArgs());
+
+// var argv = require('minimist')(process.argv.slice(2));
+
+// const input: string = argv.i; // -i: input parameter 
+// console.log('input: ', input);
+
+
+const dwncrwlr = new Dwncrwlr('../dwncrwlr.config.json');
 
 dwncrwlr.init();
