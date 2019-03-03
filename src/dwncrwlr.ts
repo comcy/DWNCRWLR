@@ -192,7 +192,7 @@ export class Dwncrwlr {
 
       // Assign layouts
 
-      TODO: get dist layouts
+      // TODO: get dist layouts
 
       const layout = pageData.attributes[FrontmatterAttributes.Layout] || 'default';
       const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);
