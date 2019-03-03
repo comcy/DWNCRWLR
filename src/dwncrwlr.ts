@@ -80,12 +80,15 @@ export class Dwncrwlr {
   }
 
   private cleanUpDist() {
+    console.log('clean:::');
     fs.emptyDirSync(`${this.distPath}`);
   }
 
   private copyAssets() {
-    if (this.srcCustomAssets !== isEmptyNullUndefined) {
-      const assetsPath: string[] = getAssetsPath(this.srcPath, this.srcCustomAssets);
+    console.log('assets:::');
+    let assetsPath: string[] = [];
+    if (!isEmptyNullUndefined(this.srcCustomAssets)) {
+      assetsPath = getAssetsPath(this.srcPath, this.srcCustomAssets);
       fs.copy(`${assetsPath[0]}${assetsPath[1]}`, `${this.distPath}/${assetsPath[1]}`);
     } else {
       fs.copy(`${assetsPath[0]}${assetsPath[1]}`, `${this.distPath}/${assetsPath[1]}`);
@@ -188,9 +191,12 @@ export class Dwncrwlr {
       }
 
       // Assign layouts
+
+      TODO: get dist layouts
+
       const layout = pageData.attributes[FrontmatterAttributes.Layout] || 'default';
       const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);
-      const layoutFileName = `${viewsPath[0]}/${viewsPath[1]}/${layout}.ejs`;
+      const layoutFileName = `${viewsPath[0]}${viewsPath[1]}/${layout}.ejs`;
       const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
 
       const finalPage = ejs.render(
@@ -223,7 +229,9 @@ export class Dwncrwlr {
 // const input: string = argv.i; // -i: input parameter 
 // console.log('input: ', input);
 
+const baseHref = process.cwd();
 
-const dwncrwlr = new Dwncrwlr('../dwncrwlr.config.json');
+console.log(baseHref);
 
+const dwncrwlr = new Dwncrwlr(baseHref + '/dwncrwlr.config.json');
 dwncrwlr.init();
