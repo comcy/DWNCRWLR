@@ -49,6 +49,10 @@ export class Dwncrwlr {
     this.supportedExtensions = this.config.build.supportedContentExtensionsPattern;
   }
 
+  get execBaseHref(): string {
+    return __dirname;
+  }
+
   public init() {
     // tslint:disable-next-line:no-console
     console.log(consoleStyle.textFgRed, consoleStyle.asciiLogo);
@@ -80,12 +84,10 @@ export class Dwncrwlr {
   }
 
   private cleanUpDist() {
-    console.log('clean:::');
     fs.emptyDirSync(`${this.distPath}`);
   }
 
   private copyAssets() {
-    console.log('assets:::');
     let assetsPath: string[] = [];
     if (!isEmptyNullUndefined(this.srcCustomAssets)) {
       assetsPath = getAssetsPath(this.srcPath, this.srcCustomAssets);
@@ -194,10 +196,23 @@ export class Dwncrwlr {
 
       // TODO: get dist layouts
 
+
       const layout = pageData.attributes[FrontmatterAttributes.Layout] || 'default';
+
+      console.log('layout ::: ', layout);
+
       const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);
+
+      console.log('viewsPath ::: ', viewsPath);
+
       const layoutFileName = `${viewsPath[0]}${viewsPath[1]}/${layout}.ejs`;
-      const layoutData = fs.readFileSync(layoutFileName, 'utf-8');
+
+      console.log('name ::: ', __dirname + layoutFileName);
+
+
+
+
+      const layoutData = fs.readFileSync(__dirname + layoutFileName, 'utf-8');
 
       const finalPage = ejs.render(
         layoutData,
@@ -231,7 +246,7 @@ export class Dwncrwlr {
 
 const baseHref = process.cwd();
 
-console.log(baseHref);
+console.log('exec folder:::', baseHref);
 
 const dwncrwlr = new Dwncrwlr(baseHref + '/dwncrwlr.config.json');
 dwncrwlr.init();

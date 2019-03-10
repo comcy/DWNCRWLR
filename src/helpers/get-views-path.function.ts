@@ -1,6 +1,6 @@
 import { isEmptyNullUndefined } from './index';
 
-export const DEFAULT_ACTUAL_PATH = './';
+export const DEFAULT_ACTUAL_PATH = '/';
 export const DEFAULT_VIEWS_PATH = 'views/layouts';
 
 export const getViewsPath = (
