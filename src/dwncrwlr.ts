@@ -211,6 +211,7 @@ export class Dwncrwlr {
 
 
 
+      // TODO: src path is detected -> path is not correct
 
       const layoutData = fs.readFileSync(__dirname + layoutFileName, 'utf-8');
 
