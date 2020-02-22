@@ -7,6 +7,7 @@
     "crwldwn": "./dwncrwlr.js"
   },
   "scripts": {
+    "dev:start": "node dist/dwncrwlr.js dwncrwlr.config.json",
     "build": "gulp && npm run clean-package",
     "clean-package": "node ./buildtools/cleanup-package.js",
     "build:dev": "npm run tsc && npm run styles && npm run generate:ts",
