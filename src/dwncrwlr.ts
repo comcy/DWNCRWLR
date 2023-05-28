@@ -5,8 +5,8 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as glob from 'glob';
 import * as showdown from 'showdown';
-import fm, * as frontMatter from 'front-matter';
-import * as moment from 'moment';
+import fm from 'front-matter';
+import moment from 'moment';
 import { NavigationItem } from './models';
 import {
   consoleStyle,
@@ -23,7 +23,6 @@ export class Main {
   private srcPathLayouts = config.build.srcPathLayouts;
   private srcAssets = config.build.srcAssets;
   private distPath = config.build.distPath;
-
   private supportedExtensions = config.build.supportedContentExtensionsPattern;
 
   // Build declarations

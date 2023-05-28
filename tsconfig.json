@@ -4,7 +4,7 @@
         "rootDir": "src",
         "outDir": "dist",
         "sourceMap": true,
-        "target": "es2022",
+        "target": "es6",
         "module": "commonjs",
         "declaration": true,
         "noImplicitAny": false,
@@ -12,8 +12,9 @@
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "moduleResolution": "node",
+        "esModuleInterop": true,
         "lib": [
-            "es2015",
+            "es6",
             "dom"
         ],
         "baseUrl": "./",
