@@ -5,7 +5,7 @@ import * as path from 'path';
 import * as ejs from 'ejs';
 import * as glob from 'glob';
 import * as showdown from 'showdown';
-import * as frontMatter from 'front-matter';
+import fm, * as frontMatter from 'front-matter';
 import * as moment from 'moment';
 import { NavigationItem } from './models';
 import {
@@ -83,7 +83,9 @@ export class Main {
         `${this.srcPath}/${this.srcPathSites}`,
         file
       );
-      const fileMetadata = frontMatter(fileContent);
+
+      const fileMetadata = fm(fileContent);
+
       if (fileInfoNav.dir !== '') {
         this.navigation.put(
           fileInfoNav.dir,
@@ -119,7 +121,7 @@ export class Main {
         file
       );
 
-      const pageData = frontMatter(pageFile);
+      const pageData = fm(pageFile);
       const actualDate = moment().format('LLL');
       const templateConfig = Object.assign(
         {},
