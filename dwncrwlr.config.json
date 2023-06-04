@@ -14,7 +14,7 @@
         "srcPathSites": "sites",
         "distPath": "./publish",
         "supportedContentExtensionsPattern": "md|ejs|html",
-        "srcCustomPathLayouts": "",
+        "srcCustomPathLayouts": "./profile-sample/views",
         "srcCustomAssets": ""
     }
 }

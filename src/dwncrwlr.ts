@@ -1,15 +1,20 @@
 #!/usr/bin/env node
 import * as ejs from 'ejs';
-import * as frontMatter from 'front-matter';
+// <<<<<<< HEAD
+// import * as frontMatter from 'front-matter';
 import * as fs from 'fs-extra';
 import * as glob from 'glob';
-import * as moment from 'moment';
+// import * as moment from 'moment';
 import * as path from 'path';
 import * as showdown from 'showdown';
 
+import fm from 'front-matter';
+import moment from 'moment';
 
 import { Argument, Cli } from './cli';
 import { FrontmatterAttributes } from './enums';
+import { NavigationItem } from './models';
+// >>>>>>> feature/re-implementation
 import {
   ArrayListMultimap,
   consoleStyle,
@@ -18,11 +23,12 @@ import {
   readFileContents,
   isEmptyNullUndefined
 } from './helpers';
-import { NavigationItem } from './models';
+// import { NavigationItem } from './models';
 
 export class Dwncrwlr {
 
   // Variabel declaration defined in dwncrwlr.config.json
+// <<<<<<< HEAD
   private config;
   private srcPath;
   private srcPathSites;
@@ -30,6 +36,14 @@ export class Dwncrwlr {
   private srcCustomPathLayouts;
   private srcCustomAssets;
   private supportedExtensions;
+// =======
+//   private srcPath = config.build.srcPath;
+//   private srcPathSites = config.build.srcPathSites;
+//   private srcPathLayouts = config.build.srcPathLayouts;
+//   private srcAssets = config.build.srcAssets;
+//   private distPath = config.build.distPath;
+//   private supportedExtensions = config.build.supportedContentExtensionsPattern;
+// >>>>>>> feature/re-implementation
 
   // Build declarations
   private files;
@@ -122,7 +136,9 @@ export class Dwncrwlr {
         `${this.srcPath}/${this.srcPathSites}`,
         file
       );
-      const fileMetadata = frontMatter(fileContent);
+
+      const fileMetadata = fm(fileContent);
+
       if (fileInfoNav.dir !== '') {
         this.navigation.put(
           fileInfoNav.dir,
@@ -162,7 +178,7 @@ export class Dwncrwlr {
         file
       );
 
-      const pageData = frontMatter(pageFile);
+      const pageData = fm(pageFile);
       const actualDate = moment().format('LLL');
       const templateConfig = Object.assign(
         {},
@@ -201,7 +217,7 @@ export class Dwncrwlr {
 
       console.log('layout ::: ', layout);
 
-      const viewsPath: string[] = getViewsPath(this.srcPath, this.srcCustomPathLayouts);
+      const viewsPath: string[] = getViewsPath(__dirname, this.srcCustomPathLayouts);
 
       console.log('viewsPath ::: ', viewsPath);
 
@@ -209,11 +225,10 @@ export class Dwncrwlr {
 
       console.log('name ::: ', __dirname + layoutFileName);
 
-
-
       // TODO: src path is detected -> path is not correct
-
       const layoutData = fs.readFileSync(__dirname + layoutFileName, 'utf-8');
+
+      console.log('==> ', layoutData)
 
       const finalPage = ejs.render(
         layoutData,
@@ -222,6 +237,8 @@ export class Dwncrwlr {
           filename: layoutFileName
         })
       );
+
+      console.log('==> ', finalPage)
 
       // Save file with name of folder and file name
       fs.writeFileSync(
